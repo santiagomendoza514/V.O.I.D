@@ -1,7 +1,7 @@
 import React from 'react';
 
 const AnnouncementBar = () => {
-  const announcementText = "▶DEL VACÍO SE CREA TODO◀";
+  const announcementText = "☸DEL VACÍO SE CREA TODO☸";
 
   return (
     <div className="announcement-bar">

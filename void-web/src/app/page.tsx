@@ -1,5 +1,6 @@
 import Header from "@/components/layout/Header";
 import Hero from "@/components/Hero";
+import CategoryCards from "@/components/CategoryCards"; 
 
 export default function HomePage() {
   return (
@@ -7,6 +8,7 @@ export default function HomePage() {
     <div>
       <Header />
       <Hero />
+      <CategoryCards />
       
       
       <div className="h-screen bg-gray-100 relative z-10">
