@@ -1,21 +1,32 @@
 "use client"; // Directiva necesaria para usar hooks como useState
 
-import React, { useState } from 'react';
-import AnnouncementBar from './AnnouncementBar';
+import React, { useState, useEffect  } from 'react';
 import Navbar from './Navbar';
+import AnnouncementBar from './AnnouncementBar';
 
 const Header = () => {
-  // Este estado controlará la visibilidad y animación de la Navbar
   const [isNavVisible, setIsNavVisible] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 25);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
+    // CAMBIO CLAVE: La posición cambia con el scroll
     <header
+      className={`left-0 w-full z-50 transition-all duration-300 ${
+        isScrolled ? 'fixed top-0' : 'absolute top-0'
+      }`}
       onMouseEnter={() => setIsNavVisible(true)}
       onMouseLeave={() => setIsNavVisible(false)}
-      className="fixed top-0 left-0 w-full z-50"
     >
       <AnnouncementBar />
-      <Navbar isNavVisible={isNavVisible} />
+      <Navbar isNavVisible={isNavVisible} isScrolled={isScrolled} />
     </header>
   );
 };

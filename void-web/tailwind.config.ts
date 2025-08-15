@@ -8,14 +8,17 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      fontFamily: { // Añadir esta sección
-        sans: ['var(--font-inter)'],
-        custom: ['var(--font-void-custom)'], // Nuestra nueva familia de fuentes
+      // PRUEBA: Añadir un color personalizado
+      colors: {
+        'void-purple': '#8A2BE2', // Un color morado inconfundible
       },
-      animation: { // Añadir esta sección para la marquesina
+      fontFamily: {
+        custom: ['var(--fontBlox2)'],
+      },
+      animation: {
         marquee: 'marquee 20s linear infinite',
       },
-      keyframes: { // Añadir esta sección para la marquesina
+      keyframes: {
         marquee: {
           '0%': { transform: 'translateX(0%)' },
           '100%': { transform: 'translateX(-100%)' },

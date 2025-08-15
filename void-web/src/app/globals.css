@@ -1,7 +1,9 @@
 @import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-
-:root {
+/*:root {
   --background: #ffffff;
   --foreground: #ffffff;
 }
@@ -23,15 +25,64 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif, var(--font-void-custom);
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
-/* Definición de la animación de la marquesina */
+
+
+
+Definición de la animación de la marquesina */
+
+@font-face {
+  font-family: 'Blox2';
+  src: url('../fonts/digital-7_\(mono_italic\).woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --fontBlox2: 'Blox2', sans-serif; /* Incluimos un fallback a sans-serif */
+}
+
+.announcement-bar {
+  background-color: black; /* Fondo negro */
+  font-family: 'Blox2', sans-serif; /* ¡NUESTRA FUENTE PERSONALIZADA! */
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.40em;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 0.5rem 0; /* 8px de padding vertical */
+}
+
+.announcement-bar__content {
+  display: inline-block;
+  animation: marquee 25s linear infinite;
+}
+
+.announcement-bar__text{
+  font-family: 'Blox2', sans-serif;
+  color: #ffff;
+}
+
+
+
+
+@layer base {
+  /*
+    Usamos @layer base para aplicar estilos a elementos HTML base
+    como body, h1, etc., de una manera que Tailwind pueda gestionar.
+  */
+  body {
+    /* Aquí podemos poner estilos base del body si los necesitáramos,
+       pero por ahora lo dejaremos limpio y lo controlaremos desde layout.tsx */
+  }
+}
+
 @keyframes marquee {
   0% { transform: translateX(0%); }
   100% { transform: translateX(-100%); }
 }
+
