@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Search, Heart, ShoppingBag, User, Plus } from 'lucide-react';
-import MegaMenu from './MegaMenu';
+//import MegaMenu from './MegaMenu';
 import HoverMenuItem from './HoverMenuItem'; 
 import CategoriesMegaMenu from './CategoriesMenu';
+import PlusMenu from './PlusMenu';
+
 
 
 interface NavbarProps {
@@ -69,9 +71,12 @@ const Navbar = ({ isNavVisible, isScrolled }: NavbarProps) => {
             )}
           </HoverMenuItem>
 
-          <HoverMenuItem menuContent={<MegaMenu isOpen={true} />}>
-            {() => (
-              <button className="uppercase text-sm font-medium tracking-wider cursor-pointer">
+          <HoverMenuItem menuContent={<PlusMenu />}> 
+            {(isHovered) => (
+              <button className={`uppercase text-sm font-medium tracking-wider cursor-pointer pb-1 bg-no-repeat bg-bottom transition-[background-size] duration-300 ease-in-out
+                ${isHovered ? 'bg-[length:100%_2px]' : 'bg-[length:0%_2px]'}
+                ${isScrolled ? 'bg-gradient-to-r from-black to-black' : 'bg-gradient-to-r from-white to-white'}
+              `}>
                 <Plus size={16} />
               </button>
             )}
