@@ -44,7 +44,10 @@ const FlippableCard = ({ title, menuItems, backgroundImage }: FlippableCardProps
               <a 
                 key={item} 
                 href="#" 
-                className="relative text-black uppercase tracking-wider hover:font-bold hover:translate-x-3 transition-all duration-300"
+                className="relative text-black uppercase tracking-wider
+                hover:underline
+                hover:font-bold 
+                hover:translate-x-3 transition-all duration-300 "
               >
                 {item}
               </a>

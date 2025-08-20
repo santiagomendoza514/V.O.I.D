@@ -8,7 +8,8 @@ interface HoverMenuItemProps {
 }
 
 const HoverMenuItem = ({ children, menuContent }: HoverMenuItemProps) => {
-const [isOpen, setIsOpen] = useState(false);
+
+  const [isOpen, setIsOpen] = useState(false);
 
  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -42,7 +43,7 @@ const [isOpen, setIsOpen] = useState(false);
         <div
           className={`
             absolute top-full left-1/2 -translate-x-1/2 mt-4
-            transition-all duration-300 ease-in-out
+            transition-all duration-200 ease-in-out
             ${isOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-4'}
           `}
         >

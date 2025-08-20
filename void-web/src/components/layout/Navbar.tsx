@@ -16,7 +16,7 @@ const navItems = ["shop all"];
 
 const Navbar = ({ isNavVisible, isScrolled }: NavbarProps) => {
 
-  const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
+  /*const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);*/
 
   return (
     <nav
