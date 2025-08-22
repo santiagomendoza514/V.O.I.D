@@ -1,11 +1,27 @@
-"use client"; // 1. Hacemos el componente interactivo para la función de scroll
+"use client"; 
 
-import React from "react";
+import React, { useState, useRef } from "react";
 import {ArrowUpFromDot , Mail, MapPin, Phone } from "lucide-react";
+import Confetti from 'react-confetti';
+import { useWindowSize } from '@/hooks/useWindowSize';
+import SparkleEffect from './SparkleEffect';
 
+interface ConfettiConfig {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
 
 const Footer = () => {
-  // 2. Función para hacer scroll suave hacia la parte superior de la página
+
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [confettiConfig, setConfettiConfig] = useState<ConfettiConfig | null>(null);
+  const [isCopied, setIsCopied] = useState(false);
+  const { width, height } = useWindowSize();
+  const emailButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Función para hacer scroll suave hacia la parte superior de la página
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -13,8 +29,39 @@ const Footer = () => {
     });
   };
 
+  const handleCopyEmail = () => {
+    // Asegurarnos de que la referencia al botón existe
+    if (emailButtonRef.current) {
+      const email = "infovoidclothbrand@gmail.com";
+      const rect = emailButtonRef.current.getBoundingClientRect();
+
+      navigator.clipboard.writeText(email).then(() => {
+        // Establecemos la configuración del confeti con la posición del botón
+        setConfettiConfig({
+          x: rect.left,
+          y: rect.top,
+          w: rect.width,
+          h: rect.height,
+        });
+        setShowConfetti(true);
+        setIsCopied(true);
+
+        setTimeout(() => {
+          setShowConfetti(false);
+          setIsCopied(false);
+          setConfettiConfig(null);
+        }, 3000);
+      });
+    }
+  }
+
   return (
-    <footer className="bg-black text-white pt-16 pb-8">
+    <>
+      <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-50">
+        {showConfetti && confettiConfig && (<Confetti width={width} height={height} recycle={false} numberOfPieces={50} confettiSource={confettiConfig} initialVelocityY={1}/>)}
+      </div>
+
+      <footer className="bg-black text-white pt-16 pb-8">
       <div className="container mx-auto px-4">
         {/* === FILA SUPERIOR: MÉTODOS DE PAGO Y REDES SOCIALES === */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-15 gap-8 md:gap-0">
@@ -57,9 +104,20 @@ const Footer = () => {
             <br/>
 
             <p style={{display: 'flex'}} className="text-gray-400 mb-2 items-center"><Mail size={35}/>
-              <span className='px-2'>
-                 infovoidclothbrand@gmail.com
-              </span>
+              <div className="relative">
+                <button
+                  ref={emailButtonRef} 
+                  onClick={handleCopyEmail}
+                  className="text-gray-400 mb-2 hover:text-white hover:underline transition-colors text-left cursor-pointer px-2"
+                >
+                  infovoidclothbrand@gmail.com
+                </button>
+                {isCopied && (
+                  <div className="absolute -top-7 right-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-md whitespace-nowrap">
+                    Copied!
+                  </div>
+                )}
+              </div>
             </p>
 
             <br/>
@@ -113,10 +171,14 @@ const Footer = () => {
         <div className="flex justify-between items-center">
           {/* Copyright y Eslogan - Centrado (con un espaciador a la izquierda) */}
           <div className="flex-1"></div> {/* Espaciador */}
-          <div className="flex-1 text-center text-gray-500 text-sm">
+          <div className="flex-1 text-center text-gray-500 text-sm font-bold">
             <p>© 2025 V.O.I.D. Todos los derechos reservados.</p>
             <br/>
-            <p className="italic">☸ DEL VACÍO SE CREA TODO ☸</p>
+            <p className="italic font-bold">
+              <SparkleEffect sparkleCount={15} size={10} animationSpeed={2}> 
+                ☸ DEL VACÍO SE CREA TODO ☸
+              </SparkleEffect>
+            </p>
           </div>
           
           {/* Flecha para subir - Derecha */}
@@ -132,6 +194,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
+    </>
   );
 };
 
