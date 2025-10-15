@@ -59,7 +59,7 @@ Definición de la animación de la marquesina */
 
 .announcement-bar__content {
   display: inline-block;
-  animation: marquee 25s linear infinite;
+  animation: marquee 35s linear infinite;
 }
 
 .announcement-bar__text{

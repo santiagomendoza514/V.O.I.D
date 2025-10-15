@@ -3,12 +3,12 @@ import FlippableCard from './FlippableCard';
 
 const cardData = [
   {
-    title: 'Women',
+    title: 'Tote Bags',
     menuItems: ['View All', 'Tops', 'Bottoms', 'Dresses', 'Accessories'],
     backgroundImage: '/hero-background.jpg', // Reemplaza con tus imágenes
   },
   {
-    title: 'Men',
+    title: 'Sweatpants',
     menuItems: ['View All', 'T-Shirts', 'Pants', 'Hoodies', 'Accessories'],
     backgroundImage: '/hero-background.jpg', // Reemplaza con tus imágenes
   },

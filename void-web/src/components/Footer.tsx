@@ -6,17 +6,9 @@ import Confetti from 'react-confetti';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import SparkleEffect from './SparkleEffect';
 
-interface ConfettiConfig {
-  x: number;
-  y: number;
-  w: number;
-  h: number;
-}
 
 const Footer = () => {
 
-  const [showConfetti, setShowConfetti] = useState(false);
-  const [confettiConfig, setConfettiConfig] = useState<ConfettiConfig | null>(null);
   const [isCopied, setIsCopied] = useState(false);
   const { width, height } = useWindowSize();
   const emailButtonRef = useRef<HTMLButtonElement>(null);
@@ -33,23 +25,14 @@ const Footer = () => {
     // Asegurarnos de que la referencia al botón existe
     if (emailButtonRef.current) {
       const email = "infovoidclothbrand@gmail.com";
-      const rect = emailButtonRef.current.getBoundingClientRect();
+      
 
       navigator.clipboard.writeText(email).then(() => {
-        // Establecemos la configuración del confeti con la posición del botón
-        setConfettiConfig({
-          x: rect.left,
-          y: rect.top,
-          w: rect.width,
-          h: rect.height,
-        });
-        setShowConfetti(true);
+  
         setIsCopied(true);
 
         setTimeout(() => {
-          setShowConfetti(false);
           setIsCopied(false);
-          setConfettiConfig(null);
         }, 3000);
       });
     }
@@ -57,9 +40,6 @@ const Footer = () => {
 
   return (
     <>
-      <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-50">
-        {showConfetti && confettiConfig && (<Confetti width={width} height={height} recycle={false} numberOfPieces={50} confettiSource={confettiConfig} initialVelocityY={1}/>)}
-      </div>
 
       <footer className="bg-black text-white pt-16 pb-8">
       <div className="container mx-auto px-4">
@@ -125,7 +105,7 @@ const Footer = () => {
             <p style={{display: 'flex'}} className="text-gray-400 mb-2 items-center"> <Phone size={35}/> 
               <span className='px-2'>
                 (+57) 300 123 4567
-              </span>  
+              </span> 
             </p>
           </div>
 

@@ -17,7 +17,7 @@ const FlippableCard = ({ title, menuItems, backgroundImage }: FlippableCardProps
 
   return (
     <div
-      className="w-[350px] h-[450px] rounded-lg [perspective:1000px]"
+      className="w-[370px] h-[450px] rounded-lg [perspective:1000px]"
       onMouseEnter={handleHoverStart}
       onMouseLeave={handleHoverEnd}
     >
@@ -32,12 +32,12 @@ const FlippableCard = ({ title, menuItems, backgroundImage }: FlippableCardProps
           style={{ backgroundImage: `url(${backgroundImage})` }}
         >
           <div className="absolute inset-0 bg-black opacity-20 rounded-lg"></div>
-          <h3 className="text-white text-5xl font-bold uppercase relative z-10 text-center">{title}</h3>
+          <h3 className="text-white text-5xl font-bold uppercase relative z-10 text-center justify-center">{title}</h3>
         </div>
 
         {/* Cara Trasera */}
         <div
-          className="absolute w-full h-full bg-white rounded-lg [backface-visibility:hidden] [transform:rotateX(180deg)] flex flex-col items-center justify-center p-6"
+          className="absolute w-full h-full inset-0 bg-white rounded-lg [backface-visibility:hidden] [transform:rotateX(180deg)] flex flex-col items-center justify-center p-6"
         >
           <div className="flex flex-col space-y-3 text-center">
             {menuItems.map((item) => (
