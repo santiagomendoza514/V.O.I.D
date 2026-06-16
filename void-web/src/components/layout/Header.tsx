@@ -1,8 +1,12 @@
 "use client"; // Directiva necesaria para usar hooks como useState
 
 import React, { useState, useEffect  } from 'react';
+import './CurvedLoop.css'
 import Navbar from './Navbar';
 import AnnouncementBar from './AnnouncementBar';
+import CurvedLoop from './CurvedLoop';
+import GlassSurface from './GlassSurface'
+
 
 const Header = () => {
   const [isNavVisible, setIsNavVisible] = useState(false);
@@ -25,7 +29,19 @@ useEffect(() => {
       onMouseEnter={() => setIsNavVisible(true)}
       onMouseLeave={() => setIsNavVisible(false)}
     >
-      <AnnouncementBar />
+      <CurvedLoop marqueeText=" DEL VACÍO SE CREA TODO ☸" />
+      {/*<AnnouncementBar />*/}
+      
+      <GlassSurface 
+        width={300} 
+        height={200}
+        borderRadius={50}
+        className="my-custom-class"
+      >
+      
+      </GlassSurface>
+
+
       <Navbar isNavVisible={isNavVisible} isScrolled={isScrolled} />
     </header>
   );
