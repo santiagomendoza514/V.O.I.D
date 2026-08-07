@@ -2,7 +2,7 @@ import React from 'react';
 import GlassSurface from './GlassSurface';
 
 const MenuItem = ({ children }: { children: React.ReactNode }) => (
-  <a href="#" className="relative text-white/70 hover:text-white hover:translate-x-3 transition-all duration-300 before:content-['➣'] before:absolute before:left-[-1em] before:top-0 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300">
+  <a href="#" className="relative text-white/70 hover:text-white hover:translate-x-3 hover:underline transition-all duration-300 before:content-['➣'] before:absolute before:left-[-1em] before:top-0 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300">
     {children}
   </a>
 );
