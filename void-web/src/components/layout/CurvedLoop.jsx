@@ -4,7 +4,7 @@ import './CurvedLoop.css';
 const CurvedLoop = ({
   marqueeText = '',
   speed = 2.5,
-  className,
+  className = '',
   curveAmount = 150,
   direction = 'left',
   interactive = true

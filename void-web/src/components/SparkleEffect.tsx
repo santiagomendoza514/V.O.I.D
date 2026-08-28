@@ -11,8 +11,17 @@ interface SparkleEffectProps {
 }
 
 
+interface SparkleProps {
+  size: number;
+  color: string;
+  top: string;
+  left: string;
+  delay: number;
+  speed: number;
+}
+
 // Componente para una sola estrella/brillo
-const Sparkle = ({ size, color, top, left, delay, speed }) => (
+const Sparkle = ({ size, color, top, left, delay, speed }: SparkleProps) => (
   <motion.div
     className="absolute"
     style={{ top, left }}
@@ -36,7 +45,7 @@ const Sparkle = ({ size, color, top, left, delay, speed }) => (
 );
 
 // Componente principal que genera múltiples brillos
-const SparkleEffect = ({ children, color = '#FFD700',  sparkleCount = 15, size = 10, animationSpeed = 1.5,}) => {
+const SparkleEffect = ({ children, color = '#FFD700',  sparkleCount = 15, size = 10, animationSpeed = 1.5,}: SparkleEffectProps) => {
   // Generamos un array de 15 brillos con posiciones y retrasos aleatorios
   const sparkles = Array.from({ length: sparkleCount }).map((_, i) => {
     const top = `${Math.random() * 120 - 10}%`; // De -10% a 110% para cubrir los bordes

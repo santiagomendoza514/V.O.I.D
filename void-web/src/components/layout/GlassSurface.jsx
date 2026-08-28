@@ -2,9 +2,9 @@ import { useEffect, useState, useRef, useId } from 'react';
 import './GlassSurface.css';
 
 const GlassSurface = ({
-  children,
-  width = 200,
-  height = 80,
+  children = /** @type {import('react').ReactNode} */ (null),
+  width = /** @type {string | number} */ (200),
+  height = /** @type {string | number} */ (80),
   borderRadius = 20,
   borderWidth = 0.07,
   brightness = 50,

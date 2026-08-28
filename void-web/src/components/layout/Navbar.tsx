@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import Link from 'next/link';
 import { Search, Heart, ShoppingBag, User, Plus } from 'lucide-react';
 //import MegaMenu from './MegaMenu';
 import HoverMenuItem from './HoverMenuItem'; 
@@ -40,9 +41,9 @@ const Navbar = ({ isNavVisible, isScrolled }: NavbarProps) => {
           isNavVisible ? '!left-4 translate-x-0' : ''
         }`}
       >
-        <a href="/" className="text-2xl font-bold tracking-widest">
+        <Link href="/" className="text-2xl font-bold tracking-widest">
           V.O.I.D
-        </a>
+        </Link>
       </div>
 
       {/* Navegación central */}
