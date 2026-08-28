@@ -1,5 +1,5 @@
 "use client";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 interface SparkleEffectProps {
@@ -46,17 +46,33 @@ const Sparkle = ({ size, color, top, left, delay, speed }: SparkleProps) => (
 
 // Componente principal que genera múltiples brillos
 const SparkleEffect = ({ children, color = '#FFD700',  sparkleCount = 15, size = 10, animationSpeed = 1.5,}: SparkleEffectProps) => {
-  // Generamos un array de 15 brillos con posiciones y retrasos aleatorios
-  const sparkles = Array.from({ length: sparkleCount }).map((_, i) => {
-    const top = `${Math.random() * 120 - 10}%`; // De -10% a 110% para cubrir los bordes
-    const left = `${Math.random() * 120 - 10}%`;
-    const delay = Math.random() * 3; // Retraso aleatorio para que no aparezcan todos a la vez
-    return <Sparkle key={i} size={size} color={color} top={top} left={left} delay={delay} speed={animationSpeed} />;
-  });
+  // Las posiciones se generan solo en el cliente: usar Math.random() durante el
+  // render da valores distintos en el servidor y en el navegador, y eso rompe la hidratación.
+  const [sparkles, setSparkles] = useState<{ top: string; left: string; delay: number }[]>([]);
+
+  useEffect(() => {
+    setSparkles(
+      Array.from({ length: sparkleCount }).map(() => ({
+        top: `${Math.random() * 120 - 10}%`, // De -10% a 110% para cubrir los bordes
+        left: `${Math.random() * 120 - 10}%`,
+        delay: Math.random() * 3, // Retraso aleatorio para que no aparezcan todos a la vez
+      }))
+    );
+  }, [sparkleCount]);
 
   return (
     <div className="relative inline-block">
-      {sparkles}
+      {sparkles.map((sparkle, i) => (
+        <Sparkle
+          key={i}
+          size={size}
+          color={color}
+          top={sparkle.top}
+          left={sparkle.left}
+          delay={sparkle.delay}
+          speed={animationSpeed}
+        />
+      ))}
       {children}
     </div>
   );

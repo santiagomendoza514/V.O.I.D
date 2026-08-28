@@ -83,7 +83,7 @@ const Footer = () => {
 
             <br/>
 
-            <p style={{display: 'flex'}} className="text-gray-400 mb-2 items-center"><Mail size={35}/>
+            <div style={{display: 'flex'}} className="text-gray-400 mb-2 items-center"><Mail size={35}/>
               <div className="relative">
                 <button
                   ref={emailButtonRef} 
@@ -98,7 +98,7 @@ const Footer = () => {
                   </div>
                 )}
               </div>
-            </p>
+            </div>
 
             <br/>
 
@@ -154,11 +154,11 @@ const Footer = () => {
           <div className="flex-1 text-center text-gray-500 text-sm font-bold">
             <p>© 2025 V.O.I.D. Todos los derechos reservados.</p>
             <br/>
-            <p className="italic font-bold">
+            <div className="italic font-bold">
               <SparkleEffect sparkleCount={15} size={10} animationSpeed={2}> 
                 ☸ DEL VACÍO SE CREA TODO ☸
               </SparkleEffect>
-            </p>
+            </div>
           </div>
           
           {/* Flecha para subir - Derecha */}
