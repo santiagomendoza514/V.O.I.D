@@ -47,6 +47,23 @@
   --season-fuente-titulo: var(--font-sans);
 }
 
+/*
+  Cáscara alterna en evaluación: "Piedra clara" (era la opción C). Invierte la
+  lógica — cáscara clara, prenda oscura. Está aquí solo para poder compararla
+  contra la definitiva sobre pantallas reales.
+
+  Cuando se decida, borra este bloque y el componente PreviewCascara.
+*/
+[data-cascara='piedra'] {
+  --void-fondo: #e9e5de;
+  --void-superficie: #f1eee9;
+  --void-tinta: #17150f;
+  --void-tinta-dim: #55514a;
+  --void-acento: #7a5c3e;
+  --void-linea: rgba(23, 21, 15, 0.14);
+  --void-linea-fuerte: rgba(23, 21, 15, 0.26);
+}
+
 /* --- Piel: Mūlādhāra (01 · tierra) --- */
 [data-coleccion='muladhara'] {
   --season-fondo: #ede4d3;
