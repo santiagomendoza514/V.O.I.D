@@ -1,0 +1,74 @@
+/*
+  Tokens de V.O.I.D — dos capas.
+
+  --void-*    Cáscara. Permanece las siete colecciones: navegación, footer,
+              carrito, checkout, formularios, páginas legales. Es cromáticamente
+              neutra a propósito, porque tiene que convivir con el vinotinto de
+              Mūlādhāra y con el azul de Viśuddha sin pelearse con ninguno.
+
+  --season-*  Piel de temporada. Se reemplaza cada colección. Se aplica con
+              [data-coleccion="..."] en el layout de /colecciones/[slug].
+
+  La prueba para saber cuál usar: si el color cambia cuando el visitante pasa de
+  Mūlādhāra a Svādhiṣṭhāna, es season. Si no cambia, es void.
+
+  Ningún componente escribe un color literal. Lanzar una temporada nueva debe ser
+  escribir un bloque [data-coleccion] aquí abajo y subir fotos; si hace falta
+  tocar componentes, algo se modeló mal.
+*/
+
+:root {
+  /* --- Cáscara: Grafito y arena --- */
+  --void-fondo: #1c1a17;
+  --void-superficie: #221f1b;
+  --void-tinta: #e4dcce;
+  --void-tinta-dim: #9a9086;
+  --void-acento: #8c6a4a;
+  --void-linea: rgba(228, 220, 206, 0.14);
+  --void-linea-fuerte: rgba(228, 220, 206, 0.28);
+
+  /* Semánticos: independientes del acento, iguales las siete temporadas. */
+  --void-exito: #5f6647;
+  --void-aviso: #9c7a2f;
+  --void-error: #8e3b2e;
+
+  /*
+    Por defecto la piel hereda la cáscara. Así una página fuera de una colección
+    (carrito, checkout, legales) puede usar --season-* sin quedar sin color.
+  */
+  --season-fondo: var(--void-fondo);
+  --season-tinta: var(--void-tinta);
+  --season-dominante: var(--void-acento);
+  --season-dominante-alt: var(--void-acento);
+  --season-secundario: var(--void-tinta-dim);
+  --season-terciario: var(--void-tinta-dim);
+  --season-acento: var(--void-acento);
+  --season-neutro: var(--void-tinta-dim);
+  --season-fuente-titulo: var(--font-sans);
+}
+
+/* --- Piel: Mūlādhāra (01 · tierra) --- */
+[data-coleccion='muladhara'] {
+  --season-fondo: #ede4d3;
+  --season-tinta: #2e0c16;
+  --season-dominante: #4a121f;
+  --season-dominante-alt: #6e1f2e;
+  --season-secundario: #b5623c;
+  --season-terciario: #5f6647;
+  --season-acento: #9c4a2f;
+  --season-neutro: #4a3728;
+  --season-fuente-titulo: 'Sinistre', Georgia, serif;
+}
+
+/*
+  Las seis temporadas restantes no tienen paleta definida. Cuando llegue el
+  momento, la regla es la misma: los ocho roles de arriba, colores derivados del
+  chakra, y contraste verificado contra la cáscara.
+
+  [data-coleccion='svadhisthana'] { ... }  02 · agua
+  [data-coleccion='manipura']     { ... }  03 · fuego
+  [data-coleccion='anahata']      { ... }  04 · aire
+  [data-coleccion='vishuddha']    { ... }  05 · éter
+  [data-coleccion='ajna']         { ... }  06 · luz
+  [data-coleccion='sahasrara']    { ... }  07 · consciencia
+*/
