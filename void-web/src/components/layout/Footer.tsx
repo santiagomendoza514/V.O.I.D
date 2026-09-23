@@ -189,9 +189,6 @@ const Footer = () => {
                 showCursor
                 cursorCharacter="_"
                 deletingSpeed={50}
-                variableSpeedEnabled={false}
-                variableSpeedMin={60}
-                variableSpeedMax={120}
                 cursorBlinkDuration={0.5}
               />
               

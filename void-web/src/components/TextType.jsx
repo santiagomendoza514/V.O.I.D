@@ -19,8 +19,11 @@ const TextType = ({
   cursorClassName = '',
   cursorBlinkDuration = 0.5,
   textColors = [],
-  variableSpeed,
-  onSentenceComplete,
+  // Sin un valor por defecto, TypeScript infiere estos dos props como
+  // obligatorios al usar el componente desde un .tsx. El cast en JSDoc los deja
+  // opcionales sin perder el tipo real.
+  variableSpeed = /** @type {{ min: number, max: number } | undefined} */ (undefined),
+  onSentenceComplete = /** @type {((sentence: string, index: number) => void) | undefined} */ (undefined),
   startOnVisible = false,
   reverseMode = false,
   ...props
