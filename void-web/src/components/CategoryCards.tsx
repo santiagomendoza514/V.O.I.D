@@ -3,25 +3,25 @@ import FlippableCard from './FlippableCard';
 
 const cardData = [
   {
-    title: 'Tote Bags',
-    menuItems: ['View All', 'Tops', 'Bottoms', 'Dresses', 'Accessories'],
-    backgroundImage: '/hero-background.jpg', // Reemplaza con tus imágenes
+    title: 'Tops',
+    menuItems: ['View All', 'Chaquetas', 'Sacos', 'Hoddies', 'Camisetas'],
+    backgroundImage: '/tops1.jpeg',
   },
   {
-    title: 'Sweatpants',
-    menuItems: ['View All', 'T-Shirts', 'Pants', 'Hoodies', 'Accessories'],
-    backgroundImage: '/hero-background.jpg', // Reemplaza con tus imágenes
+    title: 'Bottoms',
+    menuItems: ['View All', 'Sudaderas', 'Rompevientos', 'Pantalones', 'Jorts'],
+    backgroundImage: '/bottoms1.jpeg', 
   },
   {
-    title: 'Others',
-    menuItems: ['View All', 'Unisex', 'Limited Edition', 'Collaborations'],
-    backgroundImage: '/hero-background.jpg', // Reemplaza con tus imágenes
+    title: 'Accessories',
+    menuItems: ['View All', 'Tote Bags', 'Bolsos', 'Gorras', 'Boinas'],
+    backgroundImage: '/accessories2.jpeg',
   },
 ];
 
 const CategoryCards = () => {
   return (
-    <section className="bg-white py-10">
+    <section className="bg-[#F9F6EE] py-10">
       <div className="container mx-auto flex justify-center items-center gap-8">
         {cardData.map((card) => (
           <FlippableCard

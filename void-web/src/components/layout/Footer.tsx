@@ -4,7 +4,8 @@ import React, { useState, useRef } from "react";
 import {ArrowUpFromDot , Mail, MapPin, Phone } from "lucide-react";
 import Confetti from 'react-confetti';
 import { useWindowSize } from '@/hooks/useWindowSize';
-import SparkleEffect from './SparkleEffect';
+import CurvedLoop from './CurvedLoop';
+import ShinyText from '../ShinyText';
 
 
 const Footer = () => {
@@ -41,7 +42,7 @@ const Footer = () => {
   return (
     <>
 
-      <footer className="bg-black text-white pt-16 pb-8">
+      <footer className="relative overflow-hidden bg-[#1C1A17] text-white pt-16">
       <div className="container mx-auto px-4">
         {/* === FILA SUPERIOR: MÉTODOS DE PAGO Y REDES SOCIALES === */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-15 gap-8 md:gap-0">
@@ -149,18 +150,23 @@ const Footer = () => {
 
         {/* === FILA INFERIOR: COPYRIGHT Y FLECHA PARA SUBIR === */}
         <div className="flex justify-between items-center">
-          {/* Copyright y Eslogan - Centrado (con un espaciador a la izquierda) */}
-          <div className="flex-1"></div> {/* Espaciador */}
-          <div className="flex-1 text-center text-gray-500 text-sm font-bold">
-            <p>© 2025 V.O.I.D. Todos los derechos reservados.</p>
-            <br/>
-            <div className="italic font-bold">
-              <SparkleEffect sparkleCount={15} size={10} animationSpeed={2}> 
-                ☸ DEL VACÍO SE CREA TODO ☸
-              </SparkleEffect>
-            </div>
-          </div>
           
+          <div className="flex-1"></div> {/* Espaciador */}
+
+          <div className="flex-1 text-center text-gray-500 text-sm font-bold">
+            <ShinyText
+              text="© 2027 V.O.I.D. Todos los derechos reservados."
+              speed={2}
+              delay={0}
+              shineColor="#FFD700"
+              spread={120}
+              direction="left"
+              yoyo
+              pauseOnHover={false}
+              disabled={false}
+            />
+          </div>
+
           {/* Flecha para subir - Derecha */}
           <div className="flex-1 flex justify-end">
             <button 
@@ -173,6 +179,20 @@ const Footer = () => {
           </div>
         </div>
       </div>
+
+      <div className="mx-auto mt-1 w-full max-w-[1500px] text-white">
+                <CurvedLoop
+                  marqueeText=" DEL VACÍO SE CREA TODO ☸"
+                  fontSize={60}
+                  curveAmount={-150}
+                  speed={2}
+                  interactive={true}
+                  fill="currentColor"
+                />
+              </div> 
+
+                
+
     </footer>
     </>
   );

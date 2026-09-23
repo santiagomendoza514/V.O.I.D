@@ -1,7 +1,7 @@
 import Header from "@/components/layout/Header";
-import Hero from "@/components/Hero";
+import Hero from "@/components/layout/Hero";
 import CategoryCards from "@/components/CategoryCards"; 
-import Footer from "@/components/Footer";
+import Footer from "@/components/layout/Footer";
 
 
 export default function HomePage() {

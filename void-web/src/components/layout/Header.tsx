@@ -1,67 +1,68 @@
 "use client"; // Directiva necesaria para usar hooks como useState
 
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useRef  } from 'react';
 import Navbar from './Navbar';
-//import AnnouncementBar from './AnnouncementBar';
-import CurvedLoop from './CurvedLoop';
 
+const HIDE_AFTER = 120; // px desde arriba antes de permitir que se oculte
+const DELTA = 8;        // px mínimos de movimiento para reaccionar
 
 const Header = () => {
   const [isNavVisible, setIsNavVisible] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
 
-  const curvedRef = useRef<HTMLDivElement>(null);
-  const [curvedHeight, setCurvedHeight] = useState(0);
-
-  useLayoutEffect(() => {
-    const measure = () => {
-      if (curvedRef.current) setCurvedHeight(curvedRef.current.offsetHeight);
-    };
-    measure();
-    window.addEventListener('resize', measure);
-    return () => window.removeEventListener('resize', measure);
-  }, []);
-
+  const lastY = useRef(0);
+  const ticking = useRef(false);
+  const hovering = useRef(false);
 
 useEffect(() => {
-    const handleScroll = () => {
-      const y = window.scrollY;
-      const scrolled = y > 1;
-      setIsScrolled(scrolled);
+    lastY.current = Math.max(0, window.scrollY);
+
+    const update = () => {
+      const y = Math.max(0, window.scrollY); // clamp del rebote de iOS
+      const diff = y - lastY.current;
+
+      setIsScrolled(y > 1);
+
+      if (Math.abs(diff) >= DELTA) {
+        if (y < HIDE_AFTER || hovering.current) {
+          setIsHidden(false);          // cerca del top o con el cursor encima: siempre visible
+        } else {
+          setIsHidden(diff > 0);       // bajando oculta, subiendo muestra
+        }
+        lastY.current = y;             // solo se actualiza al superar el umbral
+      }
+
+      ticking.current = false;
     };
-    window.addEventListener('scroll', handleScroll,  {passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    const onScroll = () => {
+      if (ticking.current) return;
+      ticking.current = true;
+      window.requestAnimationFrame(update);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    update();
+
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   return (
-    // CAMBIO CLAVE: La posición cambia con el scroll
-    <header className="fixed top-0 left-0 w-full z-50"
-      onMouseEnter={() => setIsNavVisible(true)}
-      onMouseLeave={() => setIsNavVisible(false)}
+    <header
+      className={`fixed top-0 left-0 w-full z-50 pt-8
+                  transition-transform duration-500 ease-out will-change-transform
+                  ${isHidden ? '-translate-y-full' : 'translate-y-0'}`}
+      onMouseEnter={() => {
+        hovering.current = true;
+        setIsNavVisible(true);
+      }}
+      onMouseLeave={() => {
+        hovering.current = false;
+        setIsNavVisible(false);
+      }}
     >
-
-      <div
-        className="transition-transform duration-500 ease-in-out will-change-transform"
-        style={{
-          transform: isScrolled ? `translateY(-${curvedHeight}px)` : 'translateY(0)',
-        }}
-      >
-
-        <div ref={curvedRef}>
-          <CurvedLoop marqueeText=" DEL VACÍO SE CREA TODO ☸"/>
-        </div>
-
-        
-            
-      
-      {/*<AnnouncementBar />*/}
-    
-
-
       <Navbar isNavVisible={isNavVisible} isScrolled={isScrolled} />
-
-      </div>
     </header>
   );
 };

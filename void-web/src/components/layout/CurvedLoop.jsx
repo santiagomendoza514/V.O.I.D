@@ -1,13 +1,19 @@
 import { useRef, useEffect, useState, useMemo, useId } from 'react';
 import './CurvedLoop.css';
 
+// Proporciones tipográficas aproximadas respecto al font-size
+const CAP = 0.8;   // lo que suben las mayúsculas sobre la línea base
+const DESC = 0.3;  // margen por debajo de la línea base
+
 const CurvedLoop = ({
   marqueeText = '',
   speed = 2.5,
   className = '',
   curveAmount = 150,
   direction = 'left',
-  interactive = true
+  interactive = true,
+  fontSize = 96,
+  fill
 }) => {
   const text = useMemo(() => {
     const hasTrailing = /\s|\u00A0$/.test(marqueeText);
@@ -21,7 +27,11 @@ const CurvedLoop = ({
   const [offset, setOffset] = useState(0);
   const uid = useId();
   const pathId = `curve-${uid}`;
-  const pathD = `M-100,40 Q500,${40 + curveAmount} 1540,40`;
+
+  // Geometría derivada: la caja se ajusta al contenido
+  const baseY = CAP * fontSize + Math.max(0, -curveAmount / 2);
+  const vbHeight = (CAP + DESC) * fontSize + Math.abs(curveAmount) / 2;
+  const pathD = `M-100,${baseY} Q500,${baseY + curveAmount} 1540,${baseY}`;
 
   const dragRef = useRef(false);
   const lastXRef = useRef(0);
@@ -30,15 +40,13 @@ const CurvedLoop = ({
 
   const textLength = spacing;
   const totalText = textLength
-    ? Array(Math.ceil(1800 / textLength) + 2)
-        .fill(text)
-        .join('')
+    ? Array(Math.ceil(1800 / textLength) + 2).fill(text).join('')
     : text;
   const ready = spacing > 0;
 
   useEffect(() => {
     if (measureRef.current) setSpacing(measureRef.current.getComputedTextLength());
-  }, [text, className]);
+  }, [text, className, fontSize]);
 
   useEffect(() => {
     if (!spacing) return;
@@ -113,15 +121,19 @@ const CurvedLoop = ({
       onPointerUp={endDrag}
       onPointerLeave={endDrag}
     >
-      <svg className="curved-loop-svg" viewBox="0 0 1440 100">
-        <text ref={measureRef} xmlSpace="preserve" style={{ visibility: 'hidden', opacity: 0, pointerEvents: 'none' }}>
+      <svg className="curved-loop-svg" viewBox={`0 0 1440 ${vbHeight}`}>
+        <text
+          ref={measureRef}
+          xmlSpace="preserve"
+          style={{ visibility: 'hidden', opacity: 0, pointerEvents: 'none', fontSize }}
+        >
           {text}
         </text>
         <defs>
           <path ref={pathRef} id={pathId} d={pathD} fill="none" stroke="transparent" />
         </defs>
         {ready && (
-          <text fontWeight="bold" xmlSpace="preserve" className={className}>
+          <text fontWeight="bold" xmlSpace="preserve" className={className} style={{ fontSize, fill }}>
             <textPath ref={textPathRef} href={`#${pathId}`} startOffset={offset + 'px'} xmlSpace="preserve">
               {totalText}
             </textPath>
