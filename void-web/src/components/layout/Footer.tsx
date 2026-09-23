@@ -1,11 +1,12 @@
 "use client"; 
 
 import React, { useState, useRef } from "react";
-import {ArrowUpFromDot , Mail, MapPin, Phone } from "lucide-react";
-import Confetti from 'react-confetti';
+import {ArrowUpFromDot } from "lucide-react";   
 import { useWindowSize } from '@/hooks/useWindowSize';
 import CurvedLoop from './CurvedLoop';
 import ShinyText from '../ShinyText';
+import DecryptedText from '../DecryptedText';
+import TextType from '../TextType';
 
 
 const Footer = () => {
@@ -61,7 +62,6 @@ const Footer = () => {
 
           {/* Redes Sociales - Derecha */}
           <div className="flex items-center gap-6">
-            <a href="#" aria-label="Facebook"><img src="/facebook.svg" alt="Facebook" className="h-6" /></a>
             <a href="#" aria-label="Instagram"><img src="/instagram.svg" alt="Instagram" className="h-6" /></a>
             <a href="#" aria-label="YouTube"><img src="/youtube.svg" alt="Youtube" className="h-6" /></a>     
             <a href="#" aria-label="TikTok"><img src="/whatsapp.svg" alt="Whatsapp" className="h-6" /></a> 
@@ -73,25 +73,66 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mb-12">
           {/* Columna 1: V.O.I.D */}
           <div className="flex flex-col">
-            <h3 className=" text-2xl font-bold uppercase tracking-wider mb-4">V.O.I.D</h3>
-            <p style={{display: 'flex'}} className="text-gray-400 mb-2 items-center"><MapPin size={35} />
+            <h3 className=" text-2xl font-bold uppercase tracking-wider mb-4">
+              <DecryptedText 
+                text="V.O.I.D"
+                revealDirection="start"
+                sequential
+                useOriginalCharsOnly={false}
+              />
+            </h3>
+            <p style={{display: 'flex'}} className="text-gray-400 mb-2 items-center"> 
               <span className='px-2'>
-                Diagonal 23 c Bis # 88 B 10
+                <DecryptedText
+                  text ="➣ Diagonal 23 c Bis # 88 B 10"
+                  characters="01000100 01101001 01100001 01100111 01101111 01101110 01100001 01101100 
+                              00100000 00110010 00110011 00100000 01100011 00100000 01000010 01101001 
+                              01110011 00100000 00100011 00100000 00111000 00111000 00100000 01000010 
+                              00100000 00110001 00110000"
+                  revealDirection="start"
+                  sequential
+                  useOriginalCharsOnly={false}
+                  animateOn="view"
+                  speed={100}
+                  />
+                
                 <br/>
-                Bogotá, Colombia
+
+                <DecryptedText
+                text ="    Bogotá, Colombia"
+                characters="01000010 01101111 01100111 01101111 01110100 11000011 10100001 00101100 
+                            00100000 01000011 01101111 01101100 01101111 01101101 01100010 01101001 
+                            01100001"
+                revealDirection="start"
+                sequential
+                useOriginalCharsOnly={false}
+                animateOn="view"
+                speed={100}
+                />
             </span>
             </p>
 
             <br/>
 
-            <div style={{display: 'flex'}} className="text-gray-400 mb-2 items-center"><Mail size={35}/>
+            <div style={{display: 'flex'}} className="text-gray-400 mb-2 items-center">
               <div className="relative">
                 <button
                   ref={emailButtonRef} 
                   onClick={handleCopyEmail}
                   className="text-gray-400 mb-2 hover:text-white hover:underline transition-colors text-left cursor-pointer px-2"
                 >
-                  infovoidclothbrand@gmail.com
+                  <DecryptedText
+                    text ="➣ infovoidclothbrand@gmail.com"
+                    characters="01101001 01101110 01100110 01101111 01110110 01101111 01101001 01100100
+                                01100011 01101100 01101111 01110100 01101000 01100010 01110010 01100001
+                                01101110 01100100 01000000 01100111 01101101 01100001 01101001 01101100 
+                                00101110 01100011 01101111 01101101"
+                    revealDirection="start"
+                    sequential
+                    useOriginalCharsOnly={false}
+                    animateOn="view"
+                    speed={100}
+                    />
                 </button>
                 {isCopied && (
                   <div className="absolute -top-7 right-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-md whitespace-nowrap">
@@ -103,9 +144,19 @@ const Footer = () => {
 
             <br/>
 
-            <p style={{display: 'flex'}} className="text-gray-400 mb-2 items-center"> <Phone size={35}/> 
+            <p style={{display: 'flex'}} className="text-gray-400 mb-2 items-center"> 
               <span className='px-2'>
-                (+57) 300 123 4567
+                <DecryptedText
+                  text ="➣ (+57) 300 123 4567"
+                  characters="00101000 00101011 00110101 00110111 00101001 00100000 00110011 
+                              00110000 00110000 00100000 00110001 00110010 00110011 00100000 
+                              00110100 00110101 00110110 00110111"
+                  revealDirection="start"
+                  sequential
+                  useOriginalCharsOnly={false}
+                  animateOn="view"
+                  speed={100}
+                />
               </span> 
             </p>
           </div>
@@ -130,8 +181,22 @@ const Footer = () => {
 
           {/* Columna 4: Únete a V.O.I.D */}
           <div className="flex flex-col">
-            <h3 className="text-2xl font-bold uppercase tracking-wider mb-4">Únete a V.O.I.D</h3>
-            <p className="text-gray-400 mb-4">Recibe ofertas exclusivas y las últimas noticias.</p>
+            <h3 className="text-2xl font-bold uppercase tracking-wider mb-4">
+              <TextType 
+                text={["Únete a V.O.I.D!","Recibe ofertas exclusivas y las últimas noticias!"]}
+                typingSpeed={75}
+                pauseDuration={1500}
+                showCursor
+                cursorCharacter="_"
+                deletingSpeed={50}
+                variableSpeedEnabled={false}
+                variableSpeedMin={60}
+                variableSpeedMax={120}
+                cursorBlinkDuration={0.5}
+              />
+              
+            </h3>
+            
             <form className="flex flex-col md:flex-row gap-2">
               <input 
                 type="email" 
