@@ -19,12 +19,20 @@ const Hero = () => {
 
   const [index, setIndex] = useState(0);
   const [hydrated, setHydrated] = useState(false);
-  const reduceMotion = useReducedMotion();
+  const prefiereMenosMovimiento = useReducedMotion();
+
+  useEffect(() => setHydrated(true), []);
+
+  // useReducedMotion lee una media query, y el servidor no puede conocerla: al
+  // renderizar en el servidor devuelve null y en el navegador el valor real.
+  // Como de ese valor dependen el zoom y el fundido, framer-motion escribía un
+  // transform distinto en el HTML del servidor y en el del cliente, y React lo
+  // reportaba como error de hidratación. Hasta que el componente monta usamos
+  // el mismo valor en ambos lados; después ya se respeta la preferencia.
+  const reduceMotion = hydrated ? prefiereMenosMovimiento : false;
 
   const fade = reduceMotion ? 0.3 : FADE;
   const zoomFrom = reduceMotion ? 1 : 1.1;
-
-  useEffect(() => setHydrated(true), []);
 
   useEffect(() => {
     const id = setTimeout(() => {

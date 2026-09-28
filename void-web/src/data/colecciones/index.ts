@@ -1,6 +1,9 @@
 import type { Coleccion, NumeroColeccion } from '../tipos';
 import { muladhara } from './muladhara';
 
+
+
+
 /**
  * Las siete colecciones, en orden ascendente de chakra. Solo Mūlādhāra tiene
  * catálogo; las otras seis existen aquí para que el sitio pueda mostrar el
@@ -81,4 +84,8 @@ export function porNumero(numero: NumeroColeccion) {
   return recorrido.find((c) => c.numero === numero);
 }
 
+
+
 export { muladhara };
+
+

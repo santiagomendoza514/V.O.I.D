@@ -29,17 +29,17 @@ const CategoriesMegaMenu = () => {
             <h3 className="font-bold uppercase tracking-wider text-sm mb-2">Por Prenda</h3>
             <MenuItem>Tops</MenuItem>
             <MenuItem>Bottoms</MenuItem>
-            <MenuItem>Outerwear</MenuItem>
-            <MenuItem>Knitwear</MenuItem>
+            <MenuItem>Coming soon...</MenuItem>
+            <MenuItem>Coming soon...</MenuItem>
           </div>
 
           {/* Columna 2 */}
           <div className="flex flex-col space-y-2">
-            <h3 className="font-bold uppercase tracking-wider text-sm mb-2">Por Fit</h3>
-            <MenuItem>Oversized</MenuItem>
-            <MenuItem>Slim Fit</MenuItem>
-            <MenuItem>Relaxed</MenuItem>
-            <MenuItem>Boxy</MenuItem>
+            <h3 className="font-bold uppercase tracking-wider text-sm mb-2">Por Clima</h3>
+            <MenuItem>Calido</MenuItem>
+            <MenuItem>Templado</MenuItem>
+            <MenuItem>Caluroso</MenuItem>
+            <MenuItem>Frio</MenuItem>
           </div>
 
           {/* Columna 3 */}
@@ -47,8 +47,8 @@ const CategoriesMegaMenu = () => {
             <h3 className="font-bold uppercase tracking-wider text-sm mb-2">Accesorios</h3>
             <MenuItem>Gorras</MenuItem>
             <MenuItem>Bolsos</MenuItem>
-            <MenuItem>Calcetines</MenuItem>
-            <MenuItem>Joyeria</MenuItem>
+            <MenuItem>Boinas</MenuItem>
+            <MenuItem>Tote Bags</MenuItem>
           </div>
         </div>
 

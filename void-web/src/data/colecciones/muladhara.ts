@@ -1,5 +1,6 @@
 import type { Coleccion, Producto } from '../tipos';
 
+
 /**
  * Mūlādhāra — colección 01 de 07. Chakra raíz, elemento tierra.
  *
