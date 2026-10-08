@@ -5,6 +5,10 @@ import MarcoPrenda from '@/components/coleccion/MarcoPrenda';
 import { colecciones, obtenerColeccion, obtenerProducto } from '@/data/colecciones';
 import { stockTotal } from '@/data/tipos';
 import { descriptorPrenda, escasezCritica, precioCOP, textoExistencias } from '@/lib/formato';
+import { conExistencias, existenciasEnVivo } from '@/lib/supabase/existencias';
+
+// Igual que la colección: estática, pero con las existencias reales al minuto.
+export const revalidate = 60;
 
 export function generateStaticParams() {
   return colecciones.flatMap((c) =>
@@ -34,9 +38,10 @@ export default async function PaginaProducto({
 }) {
   const { slug, producto: slugProducto } = await params;
   const coleccion = obtenerColeccion(slug);
-  const producto = obtenerProducto(slug, slugProducto);
-  if (!coleccion || !producto) notFound();
+  const base = obtenerProducto(slug, slugProducto);
+  if (!coleccion || !base) notFound();
 
+  const [producto] = conExistencias([base], await existenciasEnVivo());
   const escaso = escasezCritica(producto);
   const agotado = stockTotal(producto) === 0;
 

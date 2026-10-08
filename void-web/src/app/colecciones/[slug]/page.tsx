@@ -1,8 +1,14 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import TarjetaProducto from '@/components/coleccion/TarjetaProducto';
+import ColeccionInteractiva from '@/components/coleccion/ColeccionInteractiva';
 import { obtenerColeccion } from '@/data/colecciones';
 import { stockTotal } from '@/data/tipos';
+import { conExistencias, existenciasEnVivo } from '@/lib/supabase/existencias';
+
+// La página se pre-renderiza, pero se regenera como mucho cada minuto para
+// traer las existencias reales de Supabase. Así "queda 1" no queda congelado
+// en lo que había el día del despliegue.
+export const revalidate = 60;
 
 export async function generateMetadata({
   params,
@@ -28,11 +34,12 @@ export default async function PaginaColeccion({
   const coleccion = obtenerColeccion(slug);
   if (!coleccion) notFound();
 
-  const unidades = coleccion.productos.reduce((n, p) => n + stockTotal(p), 0);
+  const productos = conExistencias(coleccion.productos, await existenciasEnVivo());
+  const unidades = productos.reduce((n, p) => n + stockTotal(p), 0);
   const { chakra } = coleccion;
 
   const datos = [
-    ['Colección', `${String(coleccion.numero).padStart(2, '0')} de 07`],
+    ['Colección', `${coleccion.numero} de VII`],
     ['Elemento', chakra.elemento],
     ['Mantra', chakra.mantra],
     ['Bloqueo', chakra.emocionBloqueo],
@@ -41,38 +48,36 @@ export default async function PaginaColeccion({
   ];
 
   return (
-    <div className="mx-auto max-w-6xl px-6 pb-32">
-      <header className="border-b border-[color-mix(in_srgb,var(--season-tinta)_18%,transparent)] pb-14">
+    <div className="pb-20">
+      <header className="mx-auto max-w-6xl px-6 pb-10">
+        <span className="text-sm tabular-nums text-[var(--season-neutro)]">
+          {coleccion.numero}
+        </span>
         <h1
-          className="text-6xl leading-[0.9] tracking-wide text-balance md:text-8xl"
+          className="mt-2 text-6xl leading-[0.9] tracking-wide text-balance md:text-8xl"
           style={{ fontFamily: 'var(--season-fuente-titulo)' }}
         >
           {coleccion.nombre}
         </h1>
-
-        <p className="mt-10 max-w-[62ch] text-lg leading-relaxed text-[var(--season-neutro)]">
+       {/* <p className="mt-8 max-w-[62ch] text-lg leading-relaxed text-[var(--season-neutro)]">
           {coleccion.manifiesto}
-        </p>
+        </p>*/}
+      </header>
 
-        <dl className="mt-12 grid grid-cols-2 gap-x-8 gap-y-6 sm:grid-cols-3 lg:grid-cols-6">
-          {datos.map(([etiqueta, valor]) => (
+      <ColeccionInteractiva productos={productos} />
+
+      <div className="mx-auto max-w-6xl px-6 pt-16">
+        <dl className="grid grid-cols-2 gap-x-8 gap-y-6 border-t border-[color-mix(in_srgb,var(--season-tinta)_18%,transparent)] pt-10 sm:grid-cols-3 lg:grid-cols-6">
+          {/*{datos.map(([etiqueta, valor]) => (
             <div key={etiqueta}>
               <dt className="text-xs uppercase tracking-[0.16em] text-[var(--season-neutro)]">
                 {etiqueta}
               </dt>
               <dd className="mt-1 text-lg tabular-nums">{valor}</dd>
             </div>
-          ))}
+          ))}*/}
         </dl>
-      </header>
-
-      <ul className="grid grid-cols-1 gap-x-8 gap-y-14 pt-14 sm:grid-cols-2 lg:grid-cols-3">
-        {coleccion.productos.map((producto, i) => (
-          <li key={producto.slug}>
-            <TarjetaProducto producto={producto} prioridad={i < 3} />
-          </li>
-        ))}
-      </ul>
+      </div>
     </div>
   );
 }

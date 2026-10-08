@@ -27,7 +27,7 @@ export default function PaginaColecciones() {
           const fila = (
             <>
               <span className="w-12 shrink-0 pt-2 text-sm tabular-nums text-[var(--void-tinta-dim)]">
-                {String(coleccion.numero).padStart(2, '0')}
+                {coleccion.numero}
               </span>
 
               <span className="flex-1">

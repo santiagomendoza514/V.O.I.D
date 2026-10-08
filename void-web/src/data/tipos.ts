@@ -136,7 +136,7 @@ export interface Producto {
 
 export interface Coleccion {
   slug: string;
-  numero: NumeroColeccion;
+  numero: string;
   nombre: string;
   chakra: Chakra;
   estado: EstadoColeccion;

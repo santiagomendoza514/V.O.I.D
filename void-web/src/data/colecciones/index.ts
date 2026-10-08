@@ -1,4 +1,4 @@
-import type { Coleccion, NumeroColeccion } from '../tipos';
+import type { Coleccion } from '../tipos';
 import { muladhara } from './muladhara';
 
 
@@ -19,42 +19,42 @@ type ColeccionProxima = Pick<Coleccion, 'slug' | 'numero' | 'nombre' | 'chakra' 
 const proximas: ColeccionProxima[] = [
   {
     slug: 'svadhisthana',
-    numero: 2,
+    numero: 'II',
     nombre: 'Svādhiṣṭhāna',
     chakra: { elemento: 'Agua', mantra: 'VAM', emocionBloqueo: 'Culpa', virtud: 'Creatividad' },
     estado: 'proxima',
   },
   {
     slug: 'manipura',
-    numero: 3,
+    numero: 'III',
     nombre: 'Maṇipūra',
     chakra: { elemento: 'Fuego', mantra: 'RAM', emocionBloqueo: 'Vergüenza', virtud: 'Voluntad' },
     estado: 'proxima',
   },
   {
     slug: 'anahata',
-    numero: 4,
+    numero: 'IV',
     nombre: 'Anāhata',
     chakra: { elemento: 'Aire', mantra: 'YAM', emocionBloqueo: 'Duelo', virtud: 'Amor' },
     estado: 'proxima',
   },
   {
     slug: 'vishuddha',
-    numero: 5,
+    numero: 'V',
     nombre: 'Viśuddha',
     chakra: { elemento: 'Éter', mantra: 'HAM', emocionBloqueo: 'Mentira', virtud: 'Verdad' },
     estado: 'proxima',
   },
   {
     slug: 'ajna',
-    numero: 6,
+    numero: 'VI',
     nombre: 'Ājñā',
     chakra: { elemento: 'Luz', mantra: 'OM', emocionBloqueo: 'Ilusión', virtud: 'Intuición' },
     estado: 'proxima',
   },
   {
     slug: 'sahasrara',
-    numero: 7,
+    numero: 'VII',
     nombre: 'Sahasrāra',
     chakra: { elemento: 'Consciencia', mantra: 'Silencio', emocionBloqueo: 'Apego', virtud: 'Unidad' },
     estado: 'proxima',
@@ -80,7 +80,7 @@ export function slugsDeColecciones(): string[] {
   return colecciones.map((c) => c.slug);
 }
 
-export function porNumero(numero: NumeroColeccion) {
+export function porNumero(numero: string) {
   return recorrido.find((c) => c.numero === numero);
 }
 

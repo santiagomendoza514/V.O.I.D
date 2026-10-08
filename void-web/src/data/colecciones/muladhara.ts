@@ -38,7 +38,11 @@ const productos: Producto[] = [
     precio: 130000,
     precioEstimado: true,
     piezaUnica: true,
-    imagenes: [],
+    imagenes: [
+      { src: '/hero2.jpeg', alt: 'Chaqueta Kanda en microfibra', principal: true },
+      { src: '/hero1.jpeg', alt: 'Chaqueta Kanda en microfibra, detalle' },
+      { src: '/tops1.jpeg', alt: 'Chaqueta Kanda en microfibra, en uso' },
+    ],
     variantes: [
       { sku: 'VOID-MUL-CHA-MIC-NEG-M', talla: 'M', color: COLORES.negro, stock: 1 },
     ],
@@ -67,7 +71,11 @@ const productos: Producto[] = [
     precio: 100000,
     precioEstimado: true,
     piezaUnica: true,
-    imagenes: [],
+    imagenes: [
+      { src: '/bottoms1.jpeg', alt: 'Pantalon Vetas en pana', principal: true },
+      { src: '/hero5.jpeg', alt: 'Pantalon Vetas en pana, detalle' },
+      { src: '/image1.jpg', alt: 'Pantalon Vetas en pana, en uso' },
+    ],
     variantes: [
       { sku: 'VOID-MUL-PAN-PNA-CAF-M', talla: 'M', color: COLORES.cafe, stock: 1 },
     ],
@@ -96,7 +104,11 @@ const productos: Producto[] = [
     precio: 90000,
     precioEstimado: false,
     piezaUnica: false,
-    imagenes: [],
+    imagenes: [
+      { src: '/hero1.jpeg', alt: 'Sudadera Sedimento en burda', principal: true },
+      { src: '/hero3.jpeg', alt: 'Sudadera Sedimento en burda, detalle' },
+      { src: '/hero4.jpeg', alt: 'Sudadera Sedimento en burda, en uso' },
+    ],
     variantes: [
       { sku: 'VOID-MUL-SUD-BUR-NEG-S', talla: 'S', color: COLORES.negro, stock: 1 },
       { sku: 'VOID-MUL-SUD-BUR-NEG-M', talla: 'M', color: COLORES.negro, stock: 1 },
@@ -136,7 +148,11 @@ const productos: Producto[] = [
     precio: 95000,
     precioEstimado: true,
     piezaUnica: false,
-    imagenes: [],
+    imagenes: [
+      { src: '/hero3.jpeg', alt: 'Sudadera Cauce en nautica', principal: true },
+      { src: '/hero1.jpeg', alt: 'Sudadera Cauce en nautica, detalle' },
+      { src: '/ropa1.jpeg', alt: 'Sudadera Cauce en nautica, en uso' },
+    ],
     variantes: [
       { sku: 'VOID-MUL-SUD-NAU-VER-S', talla: 'S', color: COLORES.verde, stock: 1 },
       { sku: 'VOID-MUL-SUD-NAU-VER-M', talla: 'M', color: COLORES.verde, stock: 1 },
@@ -171,7 +187,11 @@ const productos: Producto[] = [
     precio: 55000,
     precioEstimado: true,
     piezaUnica: false,
-    imagenes: [],
+    imagenes: [
+      { src: '/ropa1.jpeg', alt: 'Camiseta Bija en jacquard', principal: true },
+      { src: '/tops1.jpeg', alt: 'Camiseta Bija en jacquard, detalle' },
+      { src: '/hero2.jpeg', alt: 'Camiseta Bija en jacquard, en uso' },
+    ],
     variantes: [
       { sku: 'VOID-MUL-CAM-JAC-CRE-M', talla: 'M', color: COLORES.crema, stock: 1 },
       { sku: 'VOID-MUL-CAM-JAC-VER-M', talla: 'M', color: COLORES.verde, stock: 1 },
@@ -202,7 +222,11 @@ const productos: Producto[] = [
     precio: 100000,
     precioEstimado: false,
     piezaUnica: false,
-    imagenes: [],
+    imagenes: [
+      { src: '/tops1.jpeg', alt: 'Saco Corteza en burda con Monaco', principal: true },
+      { src: '/hero2.jpeg', alt: 'Saco Corteza en burda con Monaco, detalle' },
+      { src: '/hero4.jpeg', alt: 'Saco Corteza en burda con Monaco, en uso' },
+    ],
     variantes: [
       { sku: 'VOID-MUL-SAC-BUR-VIN-M', talla: 'M', color: COLORES.vinotinto, stock: 1 },
       { sku: 'VOID-MUL-SAC-BUR-CAF-M', talla: 'M', color: COLORES.cafe, stock: 1 },
@@ -233,7 +257,11 @@ const productos: Producto[] = [
     precio: 110000,
     precioEstimado: true,
     piezaUnica: false,
-    imagenes: [],
+    imagenes: [
+      { src: '/hero4.jpeg', alt: 'Hoodie Cobijo en acolchado', principal: true },
+      { src: '/hero3.jpeg', alt: 'Hoodie Cobijo en acolchado, detalle' },
+      { src: '/hero1.jpeg', alt: 'Hoodie Cobijo en acolchado, en uso' },
+    ],
     variantes: [
       { sku: 'VOID-MUL-HOO-ACO-CAF-M', talla: 'M', color: COLORES.cafe, stock: 1 },
       { sku: 'VOID-MUL-HOO-ACO-BUR-M', talla: 'M', color: COLORES.burdeos, stock: 1 },
@@ -264,7 +292,11 @@ const productos: Producto[] = [
     precio: 100000,
     precioEstimado: true,
     piezaUnica: false,
-    imagenes: [],
+    imagenes: [
+      { src: '/hero5.jpeg', alt: 'Pantalon Surco en drill twill', principal: true },
+      { src: '/bottoms1.jpeg', alt: 'Pantalon Surco en drill twill, detalle' },
+      { src: '/image1.jpg', alt: 'Pantalon Surco en drill twill, en uso' },
+    ],
     variantes: [
       { sku: 'VOID-MUL-PAN-DRT-CAF-S', talla: 'S', color: COLORES.cafe, stock: 1 },
       { sku: 'VOID-MUL-PAN-DRT-CAF-M', talla: 'M', color: COLORES.cafe, stock: 1 },
@@ -295,7 +327,11 @@ const productos: Producto[] = [
     precio: 100000,
     precioEstimado: true,
     piezaUnica: false,
-    imagenes: [],
+    imagenes: [
+      { src: '/image1.jpg', alt: 'Pantalon Arcilla en pano delgado', principal: true },
+      { src: '/bottoms1.jpeg', alt: 'Pantalon Arcilla en pano delgado, detalle' },
+      { src: '/hero5.jpeg', alt: 'Pantalon Arcilla en pano delgado, en uso' },
+    ],
     variantes: [
       { sku: 'VOID-MUL-PAN-PAD-NEG-S', talla: 'S', color: COLORES.negro, stock: 1 },
       { sku: 'VOID-MUL-PAN-PAD-NEG-M', talla: 'M', color: COLORES.negro, stock: 1 },
@@ -326,7 +362,11 @@ const productos: Producto[] = [
     precio: 0,
     precioEstimado: true,
     piezaUnica: false,
-    imagenes: [],
+    imagenes: [
+      { src: '/accessories1.jpeg', alt: 'Tote bag Ofrenda en pana', principal: true },
+      { src: '/accessories2.jpeg', alt: 'Tote bag Ofrenda en pana, detalle' },
+      { src: '/hero2.jpeg', alt: 'Tote bag Ofrenda en pana, en uso' },
+    ],
     variantes: [
       { sku: 'VOID-MUL-TOT-PNA-CAF-U', talla: 'U', color: COLORES.cafe, stock: 2 },
     ],
@@ -357,7 +397,11 @@ const productos: Producto[] = [
     precio: 0,
     precioEstimado: true,
     piezaUnica: true,
-    imagenes: [],
+    imagenes: [
+      { src: '/accessories2.jpeg', alt: 'Tote bag Vestigio de upcycling', principal: true },
+      { src: '/accessories1.jpeg', alt: 'Tote bag Vestigio de upcycling, detalle' },
+      { src: '/hero3.jpeg', alt: 'Tote bag Vestigio de upcycling, en uso' },
+    ],
     variantes: [],
     clima: {
       abrigo: 1,
@@ -377,7 +421,7 @@ const productos: Producto[] = [
 
 export const muladhara: Coleccion = {
   slug: COLECCION,
-  numero: 1,
+  numero: 'I',
   nombre: 'Mūlādhāra',
   chakra: {
     elemento: 'Tierra',
