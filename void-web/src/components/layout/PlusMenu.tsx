@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import GlassSurface from './GlassSurface';
+import Link from 'next/link';
 
 /* ---------- Datos ---------- */
 
@@ -7,7 +8,7 @@ type Coleccion = {
   id: string;
   nombre: string;
   disponible: boolean;
-  imagenes: string[];
+  imagenes: string[]; 
 };
 
 const COLECCIONES: Coleccion[] = [
@@ -21,8 +22,8 @@ const COLECCIONES: Coleccion[] = [
       '/ropa 3.jpeg',
     ],
   },
-  { id: 'svadhisthana', nombre: 'Svādhiṣṭhāna', disponible: false, imagenes: [] },
-  { id: 'manipura', nombre: 'Maṇipūra', disponible: false, imagenes: [] },
+  { id: 'svadhisthana', nombre: 'Svādhiṣṭhāna', disponible: false, imagenes: [], },
+  { id: 'manipura', nombre: 'Maṇipūra', disponible: false, imagenes: [],  },
 ];
 
 const IMAGEN_POR_DEFECTO = '/black.jpg';
@@ -46,24 +47,36 @@ const VARIANTES = {
 
 type MenuItemProps = {
   children: React.ReactNode;
+  href: string;
   disponible: boolean;
   onActivar: () => void;
 };
 
-const MenuItem = ({ children, disponible, onActivar }: MenuItemProps) => (
-  <a
-    href="#"
-    aria-disabled={!disponible}
-    onMouseEnter={onActivar}
-    onFocus={onActivar}
-    onClick={(e) => {
-      if (!disponible) e.preventDefault();
-    }}
-    className={`${BASE} ${disponible ? VARIANTES.disponible : VARIANTES.noDisponible}`}
-  >
-    {children}
-  </a>
-);
+// Las disponibles son enlaces reales. Las próximas siguen siendo enfocables,
+// para que el teclado también muestre su imagen de "coming soon", pero no
+// navegan a ningún lado.
+const MenuItem = ({ children, href, disponible, onActivar }: MenuItemProps) =>
+  disponible ? (
+    <Link
+      href={href}
+      onMouseEnter={onActivar}
+      onFocus={onActivar}
+      className={`${BASE} ${VARIANTES.disponible}`}
+    >
+      {children}
+    </Link>
+  ) : (
+    <a
+      href="#"
+      aria-disabled="true"
+      onMouseEnter={onActivar}
+      onFocus={onActivar}
+      onClick={(e) => e.preventDefault()}
+      className={`${BASE} ${VARIANTES.noDisponible}`}
+    >
+      {children}
+    </a>
+  );
 
 /* ---------- Capa de imagen reutilizable ---------- */
 
@@ -139,9 +152,14 @@ const PlusMenu = () => {
         <div className="grid grid-cols-2 p-6 w-full h-full text-white">
           {/* Columna 1 */}
           <div className="flex flex-col space-y-2">
-            <h3 className="font-bold uppercase tracking-wider text-sm mb-2">Colecciones</h3>
+            <h3 className="font-bold uppercase tracking-wider text-sm mb-2"><Link href="/colecciones">Colecciones</Link></h3>
             {COLECCIONES.map((c) => (
-              <MenuItem key={c.id} disponible={c.disponible} onActivar={() => setActiva(c)}>
+              <MenuItem
+                key={c.id}
+                href={`/colecciones/${c.id}`}
+                disponible={c.disponible}
+                onActivar={() => setActiva(c)}
+              >
                 {c.nombre}
               </MenuItem>
             ))}

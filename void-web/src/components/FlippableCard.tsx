@@ -1,14 +1,25 @@
 "use client";
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import BorderGlow from './BorderGlow';
 
+/** Sin `href`: la categoría existe en el menú pero aún no tiene prendas. */
+export interface ItemMenu {
+  etiqueta: string;
+  href?: string;
+}
+
 interface FlippableCardProps {
   title: string;
-  menuItems: string[];
+  menuItems: ItemMenu[];
   backgroundImage: string;
 }
+
+const ITEM_BASE =
+  "relative uppercase transition-all duration-300 before:content-['➣'] before:right-full before:mr-2 " +
+  'before:top-1/2 before:-translate-y-1/2 before:opacity-0 before:transition-opacity before:duration-300';
 
 const FlippableCard = ({ title, menuItems, backgroundImage }: FlippableCardProps) => {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -59,22 +70,26 @@ const FlippableCard = ({ title, menuItems, backgroundImage }: FlippableCardProps
           >
             <div className="w-full h-full rounded-lg flex flex-col items-center justify-center p-6">
               <div className="flex flex-col items-center space-y-3" >
-                {menuItems.map((item) => (
-                <a 
-                  key={item} 
-                  href="#" 
-                  className="relative text-white uppercase transition-all duration-300
-                  hover:font-bold hover:translate-x-3
-                  before:content-['➣'] before:right-full before:mr-2 
-                  before:top-1/2 before:-translate-y-1/2
-                  before:opacity-0 hover:before:opacity-100 
-                  before:transition-opacity before:duration-300
-                  after:content-[attr(data-text)] after:block after:h-0 after:font-bold
-                  after:overflow-hidden after:invisible after:pointer-events-none"
-                >
-                  {item}
-                </a>
-            ))}
+                {menuItems.map((item) =>
+                  item.href ? (
+                    <Link
+                      key={item.etiqueta}
+                      href={item.href}
+                      className={`${ITEM_BASE} text-white hover:translate-x-3 hover:font-bold hover:before:opacity-100 focus-visible:translate-x-3 focus-visible:font-bold focus-visible:outline-none focus-visible:before:opacity-100`}
+                    >
+                      {item.etiqueta}
+                    </Link>
+                  ) : (
+                    <span
+                      key={item.etiqueta}
+                      aria-disabled="true"
+                      title="Próximamente"
+                      className={`${ITEM_BASE} cursor-not-allowed text-white/45 hover:line-through`}
+                    >
+                      {item.etiqueta}
+                    </span>
+                  )
+                )}
           </div>
         </div>
         </BorderGlow>

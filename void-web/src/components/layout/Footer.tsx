@@ -64,8 +64,8 @@ const Footer = () => {
           <div className="flex items-center gap-6">
             <a href="#" aria-label="Instagram"><img src="/instagram.svg" alt="Instagram" className="h-6" /></a>
             <a href="#" aria-label="YouTube"><img src="/youtube.svg" alt="Youtube" className="h-6" /></a>     
-            <a href="#" aria-label="TikTok"><img src="/whatsapp.svg" alt="Whatsapp" className="h-6" /></a> 
-            <a href="#" aria-label="WhatsApp"><img src="/tiktok.svg" alt="TikTok" className="h-6" /></a>
+            <a href="#" aria-label="WhatsApp"><img src="/whatsapp.svg" alt="Whatsapp" className="h-6" /></a> 
+            <a href="#" aria-label="TikTok"><img src="/tiktok.svg" alt="TikTok" className="h-6" /></a>
           </div>
         </div>
 

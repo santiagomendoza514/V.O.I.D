@@ -125,16 +125,16 @@ const productos: Producto[] = [
     ],
     clima: {
       abrigo: 3,
-      capa: 'media',
+      capa: 'base',
       tempIdealMin: 12,
       tempIdealMax: 22,
       resisteLluvia: false,
       transpirable: true,
     },
     outfit: {
-      slot: 'torso',
+      slot: 'piernas',
       colorDominante: COLORES.vinotinto.hex,
-      combinaCon: ['surco', 'arcilla', 'vetas'],
+      combinaCon: ['cobijo', 'bija', 'corteza', 'kanda'],
     },
   },
   {
@@ -160,16 +160,16 @@ const productos: Producto[] = [
     ],
     clima: {
       abrigo: 3,
-      capa: 'media',
+      capa: 'base',
       tempIdealMin: 12,
       tempIdealMax: 22,
       resisteLluvia: false,
       transpirable: true,
     },
     outfit: {
-      slot: 'torso',
+      slot: 'piernas',
       colorDominante: COLORES.verde.hex,
-      combinaCon: ['surco', 'arcilla'],
+      combinaCon: ['bija', 'cobijo', 'corteza'],
     },
   },
   // Bīja, Corteza y Cobijo: tres unidades cada una, todas en talla M, y cada
@@ -278,7 +278,7 @@ const productos: Producto[] = [
     outfit: {
       slot: 'torso',
       colorDominante: COLORES.cafe.hex,
-      combinaCon: ['surco', 'arcilla', 'vetas'],
+      combinaCon: ['sedimento', 'surco', 'arcilla', 'vetas'],
     },
   },
   {
@@ -313,7 +313,7 @@ const productos: Producto[] = [
     outfit: {
       slot: 'piernas',
       colorDominante: COLORES.cafe.hex,
-      combinaCon: ['sedimento', 'bija', 'corteza', 'cobijo'],
+      combinaCon: ['bija', 'corteza', 'cobijo', 'kanda'],
     },
   },
   {
@@ -348,7 +348,7 @@ const productos: Producto[] = [
     outfit: {
       slot: 'piernas',
       colorDominante: COLORES.negro.hex,
-      combinaCon: ['sedimento', 'bija', 'corteza', 'cauce'],
+      combinaCon: ['bija', 'corteza', 'kanda'],
     },
   },
   {

@@ -1,11 +1,14 @@
 'use client';
 
 import { useCallback, useMemo, useState } from 'react';
+import { usePathname, useSearchParams } from 'next/navigation';
 import type { Producto } from '@/data/tipos';
 import {
   FILTROS_VACIOS,
   aplicarFiltros,
   contarActivos,
+  filtrosAURL,
+  filtrosDesdeURL,
   opcionesDe,
   type Filtros,
 } from '@/lib/filtros';
@@ -13,16 +16,33 @@ import CarruselColeccion from './CarruselColeccion';
 import PanelFiltros from './PanelFiltros';
 
 /**
- * El stock de la colección con su filtro. Empieza siempre mostrando todas las
- * prendas; los filtros solo restan.
+ * El stock de la colección con su filtro. Sin parámetros en la URL muestra
+ * todas las prendas; los filtros solo restan.
+ *
+ * La URL es la única fuente de verdad. Por eso un enlace del menú como
+ * ?clima=frio llega ya filtrado, y si se pulsa otro enlace estando ya en esta
+ * página, los filtros cambian sin recargar.
  */
 export default function ColeccionInteractiva({ productos }: { productos: Producto[] }) {
-  const [filtros, setFiltros] = useState<Filtros>(FILTROS_VACIOS);
+  const params = useSearchParams();
+  const ruta = usePathname();
   const [panelAbierto, setPanelAbierto] = useState(false);
 
   const opciones = useMemo(() => opcionesDe(productos), [productos]);
+  const filtros = useMemo(() => filtrosDesdeURL(params, opciones), [params, opciones]);
   const visibles = useMemo(() => aplicarFiltros(productos, filtros), [productos, filtros]);
   const activos = contarActivos(filtros);
+
+  // replaceState en vez de router.replace: cambia la URL sin pedirle nada al
+  // servidor. Next lo detecta y actualiza useSearchParams. Tampoco llena el
+  // historial: el botón "atrás" sale de la colección, no deshace un filtro.
+  const setFiltros = useCallback(
+    (f: Filtros) => {
+      const consulta = filtrosAURL(f, opciones);
+      window.history.replaceState(null, '', consulta ? `${ruta}?${consulta}` : ruta);
+    },
+    [opciones, ruta]
+  );
 
   const cerrarPanel = useCallback(() => setPanelAbierto(false), []);
   const limpiar = () => setFiltros(FILTROS_VACIOS);

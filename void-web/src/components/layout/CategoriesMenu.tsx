@@ -1,12 +1,33 @@
 import React from 'react';
+import Link from 'next/link';
 import GlassSurface from './GlassSurface';
+import { PARTES, enlaceColeccion } from '@/lib/enlaces';
 
-// Reutilizamos la lógica del efecto hover de los items del menú
-const MenuItem = ({ children }: { children: React.ReactNode }) => (
-  <a href="#" className="relative text-white/70 hover:text-white hover:translate-x-3 hover:underline transition-all duration-300 before:content-['➣'] before:absolute before:left-[-1em] before:top-0 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300">
-    {children}
-  </a>
-);
+const BASE =
+  "relative transition-all duration-300 before:content-['➣'] before:absolute before:left-[-1em] " +
+  'before:top-0 before:opacity-0 before:transition-opacity before:duration-300 outline-none';
+
+/**
+ * Cada ítem abre la colección ya filtrada. Sin `href` es una categoría que
+ * todavía no tiene prendas: se ve, pero no lleva a una colección vacía.
+ */
+const MenuItem = ({ children, href }: { children: React.ReactNode; href?: string }) =>
+  href ? (
+    <Link
+      href={href}
+      className={`${BASE} text-white/70 hover:translate-x-3 hover:text-white hover:underline hover:before:opacity-100 focus-visible:translate-x-3 focus-visible:text-white focus-visible:before:opacity-100`}
+    >
+      {children}
+    </Link>
+  ) : (
+    <span
+      aria-disabled="true"
+      title="Próximamente"
+      className={`${BASE} cursor-not-allowed text-white/40 hover:line-through`}
+    >
+      {children}
+    </span>
+  );
 
 const CategoriesMegaMenu = () => {
   return (
@@ -27,8 +48,8 @@ const CategoriesMegaMenu = () => {
           {/* Columna 1 */}
           <div className="flex flex-col space-y-2">
             <h3 className="font-bold uppercase tracking-wider text-sm mb-2">Por Prenda</h3>
-            <MenuItem>Tops</MenuItem>
-            <MenuItem>Bottoms</MenuItem>
+            <MenuItem href={enlaceColeccion({ tipo: PARTES.tops })}>Tops</MenuItem>
+            <MenuItem href={enlaceColeccion({ tipo: PARTES.bottoms })}>Bottoms</MenuItem>
             <MenuItem>Coming soon...</MenuItem>
             <MenuItem>Coming soon...</MenuItem>
           </div>
@@ -36,19 +57,22 @@ const CategoriesMegaMenu = () => {
           {/* Columna 2 */}
           <div className="flex flex-col space-y-2">
             <h3 className="font-bold uppercase tracking-wider text-sm mb-2">Por Clima</h3>
-            <MenuItem>Calido</MenuItem>
-            <MenuItem>Templado</MenuItem>
-            <MenuItem>Caluroso</MenuItem>
-            <MenuItem>Frio</MenuItem>
+            <MenuItem href={enlaceColeccion({ clima: ['calido'] })}>Cálido</MenuItem>
+            <MenuItem href={enlaceColeccion({ clima: ['templado'] })}>Templado</MenuItem>
+            {/* El catálogo distingue frío, templado, cálido y lluvia: "Caluroso"
+                no tiene equivalente propio y por ahora lleva a cálido. */}
+            <MenuItem href={enlaceColeccion({ clima: ['calido'] })}>Caluroso</MenuItem>
+            <MenuItem href={enlaceColeccion({ clima: ['frio'] })}>Frío</MenuItem>
           </div>
 
           {/* Columna 3 */}
           <div className="flex flex-col space-y-2">
             <h3 className="font-bold uppercase tracking-wider text-sm mb-2">Accesorios</h3>
             <MenuItem>Gorras</MenuItem>
-            <MenuItem>Bolsos</MenuItem>
+            {/* Una tote bag es un bolso: por ahora llevan al mismo sitio. */}
+            <MenuItem href={enlaceColeccion({ tipo: ['tote'] })}>Bolsos</MenuItem>
             <MenuItem>Boinas</MenuItem>
-            <MenuItem>Tote Bags</MenuItem>
+            <MenuItem href={enlaceColeccion({ tipo: ['tote'] })}>Tote Bags</MenuItem>
           </div>
         </div>
 

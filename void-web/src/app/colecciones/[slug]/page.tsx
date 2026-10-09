@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import ColeccionInteractiva from '@/components/coleccion/ColeccionInteractiva';
 import { obtenerColeccion } from '@/data/colecciones';
@@ -64,7 +65,12 @@ export default async function PaginaColeccion({
         </p>*/}
       </header>
 
-      <ColeccionInteractiva productos={productos} />
+      {/* Los filtros se leen de la URL, que solo existe en el navegador. Sin
+          esta frontera, Next dejaría de pre-renderizar la página entera. El
+          hueco tiene el alto del carrusel para que nada salte al cargar. */}
+      <Suspense fallback={<div className="h-[calc(clamp(480px,72vh,760px)+4.5rem)]" />}>
+        <ColeccionInteractiva productos={productos} />
+      </Suspense>
 
       <div className="mx-auto max-w-6xl px-6 pt-16">
         <dl className="grid grid-cols-2 gap-x-8 gap-y-6 border-t border-[color-mix(in_srgb,var(--season-tinta)_18%,transparent)] pt-10 sm:grid-cols-3 lg:grid-cols-6">

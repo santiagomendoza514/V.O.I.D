@@ -121,6 +121,69 @@ export function contarActivos(f: Filtros): number {
   );
 }
 
+/* ---------- Filtros en la URL ---------- */
+
+/**
+ * Los filtros viven en la URL: /colecciones/muladhara?tipo=saco,hoodie&clima=frio
+ *
+ * Así un enlace del menú puede abrir la colección ya filtrada, recargar no los
+ * borra, y una búsqueda se puede compartir. Lo que no se reconoce se ignora en
+ * silencio: un enlace viejo nunca rompe la página.
+ */
+
+const TIPOS: TipoPrenda[] = ['chaqueta', 'sudadera', 'camiseta', 'saco', 'hoodie', 'pantalon', 'tote'];
+
+/** "Café" → "cafe". Para nombres de color legibles en la URL. */
+export function aSlug(texto: string): string {
+  return texto.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+}
+
+function lista(params: URLSearchParams, clave: string): string[] {
+  return (params.get(clave) ?? '')
+    .split(',')
+    .map((v) => v.trim())
+    .filter(Boolean);
+}
+
+export function filtrosDesdeURL(params: URLSearchParams, opciones: Opciones): Filtros {
+  const [desde, hasta] = (params.get('precio') ?? '').split('-').map(Number);
+  const valido = (n: number) => Number.isFinite(n) && n > 0;
+
+  return {
+    precioMin: valido(desde) && desde > opciones.precioMin ? desde : null,
+    precioMax: valido(hasta) && hasta < opciones.precioMax ? hasta : null,
+    tallas: lista(params, 'talla')
+      .map((t) => (t.toUpperCase() === 'UNICA' ? 'U' : t.toUpperCase()))
+      .filter((t): t is Talla => (ORDEN_TALLA as string[]).includes(t)),
+    colores: lista(params, 'color')
+      .map((nombre) => opciones.colores.find((c) => aSlug(c.nombre) === aSlug(nombre))?.hex)
+      .filter((hex): hex is string => Boolean(hex)),
+    tipos: lista(params, 'tipo').filter((t): t is TipoPrenda => (TIPOS as string[]).includes(t)),
+    climas: lista(params, 'clima').filter((c): c is Clima => (ORDEN_CLIMA as string[]).includes(c)),
+  };
+}
+
+export function filtrosAURL(f: Filtros, opciones: Opciones): string {
+  const partes: string[] = [];
+  const poner = (clave: string, valores: string[]) => {
+    if (valores.length) partes.push(`${clave}=${valores.map(encodeURIComponent).join(',')}`);
+  };
+  poner('tipo', f.tipos);
+  poner('clima', f.climas);
+  poner('talla', f.tallas);
+  poner(
+    'color',
+    f.colores
+      .map((hex) => opciones.colores.find((c) => c.hex === hex)?.nombre)
+      .filter((n): n is string => Boolean(n))
+      .map(aSlug)
+  );
+  if (f.precioMin !== null || f.precioMax !== null) {
+    partes.push(`precio=${f.precioMin ?? opciones.precioMin}-${f.precioMax ?? opciones.precioMax}`);
+  }
+  return partes.join('&');
+}
+
 export interface Opciones {
   precioMin: number;
   precioMax: number;
