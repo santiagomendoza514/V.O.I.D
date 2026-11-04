@@ -437,7 +437,7 @@ export const muladhara: Coleccion = {
     'Cada saco y cada pantalón reafirman nuestro lugar en el mundo.',
   tema: {
     colores: {
-      fondo: '#EDE4D3',
+      fondo: '#FFFFFF',
       tinta: '#2E0C16',
       dominante: '#4A121F',
       dominanteAlt: '#6E1F2E',
