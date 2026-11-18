@@ -18,7 +18,7 @@ Cómo funcionan el registro, el inicio de sesión, el captcha, los enlaces del l
 
 El recorrido de una persona nueva:
 
-1. Llena nombre, correo y contraseña, y planta la semilla.
+1. Llena nombre, correo y contraseña, y marca la casilla de verificación.
 2. Supabase crea la cuenta y le envía un correo de confirmación.
 3. Ve "Revisa tu correo".
 4. Abre el enlace del correo → `/auth/confirmar` → queda con sesión → `/cuenta`, con "Tu correo quedó confirmado".
@@ -27,8 +27,7 @@ Los archivos:
 
 - `src/app/entrar/acciones.ts` — las acciones del servidor `entrar` y `registrarse`. Hablan con Supabase y traducen sus errores, que llegan en inglés, a mensajes en español.
 - `src/components/acceso/FormularioAcceso.tsx` — las pestañas y los dos formularios.
-- `src/components/acceso/PlantaSemilla.tsx` — el minijuego.
-- `src/components/acceso/Turnstile.tsx` — la protección real contra bots.
+- `src/components/acceso/Turnstile.tsx` — la casilla de verificación, que es también la protección contra bots.
 - `src/app/auth/confirmar/route.ts` — el destino del enlace del correo.
 - `src/app/cuenta/` — la página de cuenta y el cierre de sesión.
 
@@ -42,26 +41,15 @@ Tres decisiones de seguridad que conviene conocer:
 - **El registro nunca confirma si un correo ya tiene cuenta.** Si alguien se registra con un correo existente, Supabase responde igual que si fuera nuevo y no envía nada. Así nadie puede averiguar quién es cliente tuyo probando correos en el formulario.
 - **`/cuenta` usa `getUser()`, nunca `getSession()`.** Ver la sección 7 de `supabase.md`.
 
-### 1.3 El captcha: dos capas, y por qué
+### 1.3 La casilla de verificación
 
-**Un minijuego, por sí solo, no frena bots.** El registro habla con Supabase usando la llave pública, que viaja en el navegador. Un bot puede ignorar tu página por completo y registrarse llamando directamente a Supabase, sin ver nunca el juego.
+Antes de **Entrar** y de **Crear cuenta** aparece la casilla de Cloudflare Turnstile: *"Verifique que es un ser humano"*. Se marca, aparece *"¡Operación exitosa!"*, y el botón se habilita. El texto sale en el idioma del navegador del visitante.
 
-La única protección real es la que verifica **Supabase en su servidor**, y Supabase solo admite dos proveedores: hCaptcha o **Cloudflare Turnstile**. Por eso hay dos capas:
+**Por qué no la de Google ("I'm not a robot").** Esa casilla es reCAPTCHA, y Supabase no la admite: solo verifica hCaptcha y Turnstile. Importa más de lo que parece. El registro habla con Supabase usando la llave pública, que viaja en el navegador; un bot puede saltarse tu página y llamar a Supabase directamente. Lo único que lo frena es que **Supabase** compruebe el token en su servidor, y con reCAPTCHA no sabría hacerlo. La casilla se vería, pero no protegería nada.
 
-| Capa | Qué es | Protege |
-|---|---|---|
-| **Turnstile** | Casi siempre invisible: Cloudflare evalúa el navegador en segundo plano y solo muestra algo si duda. | **Sí.** Supabase rechaza el registro si el token no es válido. |
-| **Planta la semilla** | El momento de marca que ve la persona. | No. Es experiencia, no seguridad. |
+Si prefieres el aspecto más parecido al de Google, **hCaptcha** muestra una casilla *"I am human"* casi idéntica, y Supabase también la admite. Cambiarlo es reemplazar este componente.
 
-Mientras no actives Turnstile (sección 1.6), **el registro no tiene protección contra bots**. El juego se ve y funciona igual, pero no frena a nadie que sepa saltárselo.
-
-#### El minijuego
-
-Mūlādhāra es tierra, y *Bīja* —una de tus prendas— significa semilla. Se arrastra la semilla hasta el hueco, se suelta, cae; si acierta, germina. El hueco cambia de sitio en cada visita.
-
-- Solo está en **Crear cuenta**. Ponerlo en cada inicio de sesión cansaría justo a quienes más vuelven. Al entrar solo actúa Turnstile, que es invisible.
-- Se mueve en **una sola dimensión**, a propósito: arrastrar de lado funciona igual con el dedo que con el mouse, y se traduce limpio a teclado — **flechas** para mover, **Enter** para soltar. Un juego que solo se puede arrastrar excluye a quien no usa mouse.
-- Un lector de pantalla anuncia cuándo la semilla está sobre el hueco.
+**En desarrollo vas a ver un aviso rojo** bajo la casilla: *"Solo para pruebas. Si se ve, informe al propietario del sitio"*. Sin tu llave real, el sitio usa en desarrollo una llave de prueba pública de Cloudflare, para que la casilla se vea y se pueda probar. El aviso lo pone Cloudflare y desaparece cuando cargas tu llave (sección 1.6). Esa llave de prueba **nunca** se usa en producción: allí, sin llave real, la casilla no aparece y **el registro queda sin protección contra bots**.
 
 ### 1.4 Configurar Supabase — obligatorio antes de probar
 
@@ -141,7 +129,7 @@ Solo afecta a las cuentas que se creen de aquí en adelante.
 
 1. Haz la sección **1.4**.
 2. `npm run dev` y abre `http://localhost:3000/entrar?modo=registro`.
-3. Regístrate **con tu correo** (ver 1.5) y planta la semilla.
+3. Regístrate **con tu correo** (ver 1.5) y marca la casilla de verificación.
 4. Debe aparecer "Revisa tu correo". Abre el enlace del correo.
 5. Debes llegar a `/cuenta` con "Tu correo quedó confirmado".
 6. **Cerrar sesión** te lleva al inicio. Entra de nuevo desde `/entrar`.

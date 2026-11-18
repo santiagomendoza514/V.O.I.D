@@ -3,15 +3,21 @@
 import { useEffect, useRef } from 'react';
 
 /**
- * Cloudflare Turnstile: la protección real contra bots.
+ * Cloudflare Turnstile: la casilla de "soy una persona", y la protección real
+ * contra bots.
  *
- * Casi siempre es invisible ("interaction-only"): Cloudflare evalúa el
- * navegador en segundo plano y solo muestra algo si duda. El token que entrega
- * va dentro del formulario y Supabase lo verifica en su servidor. Esa
+ * Se muestra siempre como casilla ("Verify you are human"). El token que
+ * entrega va dentro del formulario y Supabase lo verifica en su servidor; esa
  * verificación del lado del servidor es lo que de verdad frena a un bot.
  *
- * Sin NEXT_PUBLIC_TURNSTILE_SITE_KEY no se dibuja nada y el formulario funciona
- * igual, sin protección. Ver docs/acceso-y-navegacion.md.
+ * Por qué no reCAPTCHA ("I'm not a robot"): Supabase solo verifica hCaptcha y
+ * Turnstile. Con reCAPTCHA, un bot podría registrarse llamando a Supabase
+ * directamente, porque Supabase no sabría comprobar el token.
+ *
+ * Sin NEXT_PUBLIC_TURNSTILE_SITE_KEY: en desarrollo se usa una llave de prueba
+ * pública de Cloudflare, para que la casilla se vea y se pueda probar; en
+ * producción no se dibuja nada y el formulario queda sin protección. Ver
+ * docs/acceso-y-navegacion.md.
  */
 
 declare global {
@@ -23,7 +29,16 @@ declare global {
   }
 }
 
-export const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? '';
+/**
+ * Llave de prueba que publica Cloudflare: siempre pide marcar la casilla y
+ * siempre la aprueba. Solo para ver y probar la casilla en desarrollo; no
+ * protege nada y nunca se usa en producción.
+ */
+const LLAVE_DE_PRUEBA = '3x00000000000000000000FF';
+
+export const TURNSTILE_SITE_KEY =
+  process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ||
+  (process.env.NODE_ENV === 'development' ? LLAVE_DE_PRUEBA : '');
 
 export type EstadoTurnstile = 'verificando' | 'listo' | 'fallo';
 
@@ -73,7 +88,10 @@ export default function Turnstile({
         id = window.turnstile.render(caja.current, {
           sitekey: TURNSTILE_SITE_KEY,
           action: accion,
-          appearance: 'interaction-only',
+          appearance: 'always',
+          // Ocupa el ancho del formulario: con el ancho fijo de 300 px, el texto
+          // en español ("Verifique que es un ser humano") no cabe y se corta.
+          size: 'flexible',
           theme: 'dark',
           callback: () => onEstado('listo'),
           'expired-callback': () => onEstado('verificando'),
@@ -91,5 +109,5 @@ export default function Turnstile({
   }, [accion, onEstado]);
 
   if (!TURNSTILE_SITE_KEY) return null;
-  return <div ref={caja} className="flex justify-center empty:hidden" />;
+  return <div ref={caja} className="w-full empty:hidden" />;
 }

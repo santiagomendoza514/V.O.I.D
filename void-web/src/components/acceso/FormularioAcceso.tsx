@@ -3,7 +3,6 @@
 import { useActionState, useCallback, useEffect, useId, useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { entrar, registrarse, type EstadoAcceso } from '@/app/entrar/acciones';
-import PlantaSemilla from './PlantaSemilla';
 import Turnstile, { TURNSTILE_SITE_KEY, type EstadoTurnstile } from './Turnstile';
 
 type Modo = 'entrar' | 'registro';
@@ -11,11 +10,14 @@ type Modo = 'entrar' | 'registro';
 const ENTRADA =
   'w-full border border-[var(--void-linea-fuerte)] bg-transparent px-4 py-3 text-base text-[var(--void-tinta)] ' +
   'placeholder:text-[color-mix(in_srgb,var(--void-tinta-dim)_60%,transparent)] transition-colors ' +
-  'focus:border-[var(--void-tinta)] focus:outline-none';
+  // Al escribir, el campo se rellena del rojo más oscuro y el borde se enciende.
+  'focus:border-[var(--void-acento)] focus:bg-[var(--void-superficie)] focus:outline-none';
 const ETIQUETA = 'mb-2 block text-xs uppercase tracking-[0.16em] text-[var(--void-tinta-dim)]';
+// El hover aclara el fondo en vez de cambiarlo a #FF0000: con texto blanco, el
+// rojo puro baja a 4:1 y deja de pasar el mínimo de contraste para texto pequeño.
 const BOTON =
-  'w-full bg-[var(--void-tinta)] px-5 py-3.5 text-xs uppercase tracking-[0.18em] text-[var(--void-fondo)] ' +
-  'transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--void-acento)] ' +
+  'w-full bg-[var(--void-accion)] px-5 py-3.5 text-xs uppercase tracking-[0.18em] text-[var(--void-accion-tinta)] ' +
+  'transition-[filter,opacity] hover:brightness-125 disabled:hover:brightness-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--void-acento)] ' +
   'focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--void-fondo)] disabled:cursor-not-allowed disabled:opacity-35';
 
 function Aviso({ children }: { children: React.ReactNode }) {
@@ -133,7 +135,7 @@ function FormEntrar({
       {estado.error && <Aviso>{estado.error}</Aviso>}
 
       <button type="submit" disabled={!listo || pendiente || verificando} className={BOTON}>
-        {pendiente ? 'Entrando…' : verificando && listo ? 'Verificando…' : 'Entrar'}
+        {pendiente ? 'Entrando…' : 'Entrar'}
       </button>
 
       <p className="text-center text-sm text-[var(--void-tinta-dim)]">
@@ -157,13 +159,11 @@ function FormRegistro({ onCambiarModo }: { onCambiarModo: () => void }) {
   const [nombre, setNombre] = useState('');
   const [correo, setCorreo] = useState('');
   const [contrasena, setContrasena] = useState('');
-  const [plantada, setPlantada] = useState(false);
-  const alPlantar = useCallback(() => setPlantada(true), []);
   const { verificando, intento, alCambiar } = useVerificacion(estado);
   const id = useId();
 
   const largoOk = contrasena.length >= 8;
-  const listo = nombre.trim() !== '' && correo.trim() !== '' && largoOk && plantada;
+  const listo = nombre.trim() !== '' && correo.trim() !== '' && largoOk;
 
   if (estado.revisaCorreo) {
     return (
@@ -233,20 +233,12 @@ function FormRegistro({ onCambiarModo }: { onCambiarModo: () => void }) {
         </p>
       </div>
 
-      <PlantaSemilla onPlantada={alPlantar} />
-
       <Turnstile key={intento} accion="registro" onEstado={alCambiar} />
 
       {estado.error && <Aviso>{estado.error}</Aviso>}
 
       <button type="submit" disabled={!listo || pendiente || verificando} className={BOTON}>
-        {pendiente
-          ? 'Creando tu cuenta…'
-          : !plantada
-            ? 'Planta la semilla para continuar'
-            : verificando
-              ? 'Verificando…'
-              : 'Crear cuenta'}
+        {pendiente ? 'Creando tu cuenta…' : 'Crear cuenta'}
       </button>
 
       <p className="text-center text-sm text-[var(--void-tinta-dim)]">
@@ -324,7 +316,7 @@ export default function FormularioAcceso({
         <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-px bg-[var(--void-linea-fuerte)]" />
         <span
           aria-hidden="true"
-          className="absolute bottom-0 h-0.5 w-1/2 bg-[var(--void-tinta)] transition-transform duration-300 ease-out motion-reduce:transition-none"
+          className="absolute bottom-0 h-0.5 w-1/2 bg-[var(--void-acento)] transition-transform duration-300 ease-out motion-reduce:transition-none"
           style={{ transform: `translateX(${modo === 'entrar' ? '0' : '100%'})` }}
         />
       </div>

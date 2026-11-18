@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function PaginaColecciones() {
   return (
-    <div className="mx-auto max-w-5xl px-6 pb-32">
+    <div className="mx-auto max-w-5xl px-6 pb-32 pt-32 md:pt-44">
       <header className="border-b border-[var(--void-linea-fuerte)] pb-12">
         <h1 className="max-w-[16ch] text-5xl leading-[0.95] tracking-wide text-balance md:text-7xl">
           El ascenso

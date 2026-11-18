@@ -38,8 +38,8 @@ export interface Chakra {
 }
 
 export interface TemaColeccion {
+  /** Sin `fondo`: es el mismo para todas las colecciones y vive en tokens.css. */
   colores: {
-    fondo: string;
     tinta: string;
     dominante: string;
     dominanteAlt: string;

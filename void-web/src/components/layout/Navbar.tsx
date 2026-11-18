@@ -1,6 +1,10 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Search, Heart, ShoppingBag, User, Plus } from 'lucide-react';
+import { RUTAS } from '@/lib/enlaces';
 //import MegaMenu from './MegaMenu';
 import HoverMenuItem from './HoverMenuItem'; 
 import CategoriesMegaMenu from './CategoriesMenu';
@@ -22,6 +26,7 @@ const navItems = ["shop all"];
 const Navbar = ({ isNavVisible, isScrolled }: NavbarProps) => {
 
   /*const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);*/
+  const router = useRouter();
   const showGlass = GLASS_MODE === 'always' || isScrolled;
   const textTone = 'text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.35)]';
 
@@ -29,7 +34,9 @@ const Navbar = ({ isNavVisible, isScrolled }: NavbarProps) => {
           { icon: <Search size={20} />, label: 'Buscar', onClick: () => alert('Home!') },
           { icon: <Heart size={20} />, label: 'Favoritos', onClick: () => alert('Archive!') },
           { icon: <ShoppingBag size={20} />, label: 'Carrito', onClick: () => alert('Profile!') },
-          { icon: <User size={20} />, label: 'Cuenta', onClick: () => alert('Settings!') },
+          // Siempre a /cuenta: si no hay sesión, esa página manda a /entrar.
+          // Así el Dock no necesita saber si el visitante inició sesión.
+          { icon: <User size={20} />, label: 'Cuenta', onClick: () => router.push(RUTAS.cuenta) },
         ];
 
   const barContent = (
@@ -53,25 +60,27 @@ const Navbar = ({ isNavVisible, isScrolled }: NavbarProps) => {
         }`}
       >
         {navItems.map((item) => (
-          <a
+          <Link
             key={item}
-            href="#"
+            href={RUTAS.coleccionActiva}
             className="uppercase text-sm font-medium tracking-wider pb-1 bg-no-repeat bg-bottom transition-[background-size] duration-250 ease-in-out bg-[length:0%_2px] hover:bg-[length:100%_2px] bg-gradient-to-r from-white to-white"
           >
             {item}
-          </a>
+          </Link>
         ))}
 
         <HoverMenuItem menuContent={<CategoriesMegaMenu />}>
           {(isHovered) => (
-            <a
-              href="#"
+            // En pantallas táctiles no existe el hover que abre el menú: sin
+            // destino propio, tocar "categories" no haría nada.
+            <Link
+              href={RUTAS.coleccionActiva}
               className={`uppercase text-sm font-medium tracking-wider pb-1 bg-no-repeat bg-bottom transition-[background-size] duration-300 ease-in-out bg-gradient-to-r from-white to-white ${
                 isHovered ? 'bg-[length:100%_2px]' : 'bg-[length:0%_2px]'
               }`}
             >
               categories
-            </a>
+            </Link>
           )}
         </HoverMenuItem>
 

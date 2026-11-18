@@ -32,8 +32,12 @@ export default async function PaginaEntrar({
   }
 
   return (
-    // Es un formulario: pertenece a la cáscara V.O.I.D, no a la piel de la temporada.
-    <div className="grid min-h-screen bg-[var(--void-fondo)] text-[var(--void-tinta)] lg:grid-cols-[1.1fr_1fr]">
+    // data-tema="acceso" activa la paleta de inicio y registro (tokens.css): los
+    // componentes usan los tokens de siempre y cambian de color sin tocarlos.
+    <div
+      data-tema="acceso"
+      className="grid min-h-screen bg-[var(--void-fondo)] text-[var(--void-tinta)] lg:grid-cols-[1.1fr_1fr]"
+    >
       <aside className="relative hidden overflow-hidden lg:block">
         <Image
           src="/hero1.jpeg"
@@ -43,8 +47,15 @@ export default async function PaginaEntrar({
           sizes="55vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-black/45" />
-        <div className="absolute inset-0 flex flex-col justify-between p-12 text-[#f0eae0]">
+        {/* El velo pasa por #3D0000: la foto entra en la paleta en vez de quedar aparte. */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(to top, color-mix(in srgb, var(--void-fondo) 88%, transparent), color-mix(in srgb, var(--void-superficie) 42%, transparent) 55%, color-mix(in srgb, var(--void-fondo) 55%, transparent))',
+          }}
+        />
+        <div className="absolute inset-0 flex flex-col justify-between p-12 text-[var(--void-tinta)]">
           <Link href="/" className="text-2xl font-bold tracking-widest focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--void-acento)]">
             V.O.I.D
           </Link>
